@@ -41,12 +41,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  int touchedIndex = -1; // Índice de seção tocada
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("My Expenses")),
       body: Center(
-        // Centraliza o conteúdo
         child: Column(
           mainAxisAlignment:
               MainAxisAlignment
@@ -57,13 +58,11 @@ class _HomePageState extends State<HomePage> {
               months: months,
               onMonthChanged: changeMonth,
             ),
-
             SizedBox(height: 20), // Espaçamento entre os elementos
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Card(
-                  //Card - Current balance
                   margin: EdgeInsets.all(16),
                   elevation: 4,
                   color: const Color(0xFF087F5B),
@@ -94,7 +93,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Card(
-                  //Card - Expected expenses
                   margin: EdgeInsets.all(16),
                   elevation: 4,
                   child: Padding(
@@ -127,13 +125,45 @@ class _HomePageState extends State<HomePage> {
               height: 200, // Definir o tamanho do gráfico
               child: PieChart(
                 PieChartData(
-                  sections:
-                      showingSections(), // Chamando a função para gerar as seções
+                  sections: showingSections(),
                   centerSpaceRadius:
                       50, // Espaço no centro para dar efeito "Doughnut"
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (event.isInterestedForInteractions &&
+                            pieTouchResponse != null &&
+                            pieTouchResponse.touchedSection != null) {
+                          touchedIndex =
+                              pieTouchResponse
+                                  .touchedSection!
+                                  .touchedSectionIndex;
+                        } else {
+                          touchedIndex = -1;
+                        }
+                      });
+                    },
+                  ),
                 ),
               ),
             ),
+            if (touchedIndex != -1)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  getTitleForSection(touchedIndex),
+                  style: TextStyle(
+                    color: Color(0xFF087F5B), // Cor #087F5B
+                    fontFamily: 'DM Sans', // Família "DM Sans"
+                    fontSize: 16, // Tamanho da fonte 16px
+                    fontWeight: FontWeight.w600, // Peso da fonte 600
+                    height: 1.5, // Line-height 150% (1.5 em Flutter)
+                    letterSpacing: -0.5, // Espaçamento entre letras -0.5px
+                    fontStyle: FontStyle.normal, // Estilo normal
+                  ),
+                  textAlign: TextAlign.center, // Alinhamento centralizado
+                ),
+              ),
           ],
         ),
       ),
@@ -164,15 +194,33 @@ class _HomePageState extends State<HomePage> {
       PieChartSectionData(
         color: const Color.fromRGBO(140, 233, 154, 1),
         value: 16,
-        title: '',
         radius: 20,
+        title: '',
       ),
       PieChartSectionData(
         color: const Color.fromRGBO(255, 146, 43, 1),
         value: 20,
-        title: '',
         radius: 20,
+        title: '',
       ),
     ];
+  }
+
+  // Função para retornar o título de acordo com o índice
+  String getTitleForSection(int index) {
+    switch (index) {
+      case 0:
+        return 'Roupas';
+      case 1:
+        return 'Alimentação';
+      case 2:
+        return 'Gasolina';
+      case 3:
+        return 'Compras Online';
+      case 4:
+        return 'Varejo';
+      default:
+        return '';
+    }
   }
 }
