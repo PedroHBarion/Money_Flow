@@ -38,35 +38,46 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Custom Month Navigation Example"),
       ),
-      body: Column(
-        children: [
-          CustomMonthNavigation(
-            currentMonthIndex: currentMonthIndex,
-            months: months,
-            onMonthChanged: changeMonth,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: Icon(Icons.access_alarm),
-                onPressed: () {
-                  // Ação para o ícone 1
-                },
+      body: Center( // Centraliza o conteúdo
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Centraliza verticalmente os itens no Column
+          children: [
+            // Column contendo CustomMonthNavigation, SizedBox e o Card
+            CustomMonthNavigation(
+              currentMonthIndex: currentMonthIndex,
+              months: months,
+              onMonthChanged: changeMonth,
+            ),
+            SizedBox(height: 20), // Espaçamento entre os elementos
+            Card(
+              margin: EdgeInsets.all(16),
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Saldo Atual Total",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "R\$ 59,45",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                "Exemplo de Texto no Row",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                icon: Icon(Icons.access_time),
-                onPressed: () {
-                  // Ação para o ícone 2
-                },
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
