@@ -30,6 +30,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter_svg: ^2.0.9
+  fl_chart: ^0.70.2
   flutter:
     sdk: flutter
 

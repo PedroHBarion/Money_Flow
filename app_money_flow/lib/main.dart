@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'src/widgets/CustomMonthNavigation.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'src/widgets/CustomMonthNavigation.dart'; // Importe o widget corretamente
 
 void main() {
   runApp(MyApp());
@@ -51,14 +52,15 @@ class _HomePageState extends State<HomePage> {
               MainAxisAlignment
                   .center, // Centraliza verticalmente os itens no Column
           children: [
-            // Column contendo CustomMonthNavigation, SizedBox e o Card
             CustomMonthNavigation(
               currentMonthIndex: currentMonthIndex,
               months: months,
               onMonthChanged: changeMonth,
             ),
+
             SizedBox(height: 20), // Espaçamento entre os elementos
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Card(
                   //Card - Current balance
@@ -119,9 +121,58 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+            SizedBox(height: 20), // Espaçamento entre os elementos
+            // Gráfico Doughnut (Gráfico de Rosca)
+            SizedBox(
+              height: 200, // Definir o tamanho do gráfico
+              child: PieChart(
+                PieChartData(
+                  sections:
+                      showingSections(), // Chamando a função para gerar as seções
+                  centerSpaceRadius:
+                      50, // Espaço no centro para dar efeito "Doughnut"
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  // Função para gerar os dados das seções do gráfico
+  List<PieChartSectionData> showingSections() {
+    return [
+      PieChartSectionData(
+        color: const Color.fromRGBO(8, 127, 91, 1),
+        value: 30,
+        radius: 20,
+        title: '',
+      ),
+      PieChartSectionData(
+        color: const Color.fromRGBO(255, 236, 153, 1),
+        value: 16,
+        radius: 20,
+        title: '',
+      ),
+      PieChartSectionData(
+        color: const Color.fromRGBO(51, 154, 240, 1),
+        value: 16,
+        radius: 20,
+        title: '',
+      ),
+      PieChartSectionData(
+        color: const Color.fromRGBO(140, 233, 154, 1),
+        value: 16,
+        title: '',
+        radius: 20,
+      ),
+      PieChartSectionData(
+        color: const Color.fromRGBO(255, 146, 43, 1),
+        value: 20,
+        title: '',
+        radius: 20,
+      ),
+    ];
   }
 }
