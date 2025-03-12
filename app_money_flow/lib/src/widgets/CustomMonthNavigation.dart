@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomMonthNavigation extends StatelessWidget {
   final int currentMonthIndex;
   final List<String> months;
-  final Function(int) onMonthChanged;  // Função de callback para notificar o pai
+  final Function(int) onMonthChanged; // Função de callback para notificar o pai
 
   CustomMonthNavigation({
     required this.currentMonthIndex,
@@ -17,14 +17,20 @@ class CustomMonthNavigation extends StatelessWidget {
     List<String> displayedMonths = [
       months[(currentMonthIndex - 1 + 12) % 12], // Mês anterior
       months[currentMonthIndex], // Mês atual
-      months[(currentMonthIndex + 1) % 12] // Mês seguinte
+      months[(currentMonthIndex + 1) % 12], // Mês seguinte
     ];
+
+    // Ajuste do tamanho da bola (menor que antes)
+    double fontSize = 14;
+    double ballSize = fontSize * 3.0; // Ajuste para bola menor
 
     return Container(
       width: 311, // Largura definida conforme seu CSS
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center, // Equivalente ao align-items: center no CSS
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .center, // Equivalente ao align-items: center no CSS
         children: [
           IconButton(
             icon: Icon(Icons.chevron_left),
@@ -44,7 +50,7 @@ class CustomMonthNavigation extends StatelessWidget {
                     displayedMonths[0],
                     style: TextStyle(
                       fontFamily: 'DM Sans',
-                      fontSize: 14,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF495057),
                       letterSpacing: -0.5,
@@ -58,22 +64,24 @@ class CustomMonthNavigation extends StatelessWidget {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Bola branca
+                      // Bola branca ajustada
                       Container(
-                        width: 50.3,
-                        height: 48,
+                        width: ballSize, // Tamanho da bola ajustado
+                        height: ballSize, // Tamanho da bola ajustado
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
-                        margin: const EdgeInsets.only(bottom: 8.0),
+                        margin: const EdgeInsets.only(
+                          bottom: 2.0,
+                        ), // Ajuste do alinhamento vertical
                       ),
                       // Texto dentro da bola
                       Text(
                         displayedMonths[1],
                         style: TextStyle(
                           fontFamily: 'DM Sans',
-                          fontSize: 14,
+                          fontSize: fontSize,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF343A40),
                           letterSpacing: -0.5,
@@ -90,7 +98,7 @@ class CustomMonthNavigation extends StatelessWidget {
                     displayedMonths[2],
                     style: TextStyle(
                       fontFamily: 'DM Sans',
-                      fontSize: 14,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF495057),
                       letterSpacing: -0.5,
