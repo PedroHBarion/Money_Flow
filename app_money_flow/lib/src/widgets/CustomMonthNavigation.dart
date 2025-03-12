@@ -20,10 +20,6 @@ class CustomMonthNavigation extends StatelessWidget {
       months[(currentMonthIndex + 1) % 12], // Mês seguinte
     ];
 
-    // Ajuste do tamanho da bola (menor que antes)
-    double fontSize = 14;
-    double ballSize = fontSize * 3.0; // Ajuste para bola menor
-
     return Container(
       width: 311, // Largura definida conforme seu CSS
       child: Row(
@@ -36,25 +32,28 @@ class CustomMonthNavigation extends StatelessWidget {
             icon: Icon(Icons.chevron_left),
             onPressed: () => onMonthChanged(-1), // Mês anterior
           ),
-          // Espaço entre os ícones e os meses
-          SizedBox(width: 16), // Equivalente ao gap: 16px no CSS
+          SizedBox(width: 16), // Espaço entre os ícones e os meses
+
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Mês anterior
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    displayedMonths[0],
-                    style: TextStyle(
-                      fontFamily: 'DM Sans',
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF495057),
-                      letterSpacing: -0.5,
-                      height: 1.4,
+                // Mês anterior (clicável)
+                GestureDetector(
+                  onTap: () => onMonthChanged(-1), // Seleciona o mês anterior
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      displayedMonths[0],
+                      style: TextStyle(
+                        fontFamily: 'DM Sans',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF495057),
+                        letterSpacing: -0.5,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 ),
@@ -64,24 +63,20 @@ class CustomMonthNavigation extends StatelessWidget {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Bola branca ajustada
                       Container(
-                        width: ballSize, // Tamanho da bola ajustado
-                        height: ballSize, // Tamanho da bola ajustado
+                        width: 40, // Ajustado para ficar mais encaixado
+                        height: 40, // Ajustado para ficar mais encaixado
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
-                        margin: const EdgeInsets.only(
-                          bottom: 2.0,
-                        ), // Ajuste do alinhamento vertical
+                        margin: const EdgeInsets.only(bottom: 8.0),
                       ),
-                      // Texto dentro da bola
                       Text(
                         displayedMonths[1],
                         style: TextStyle(
                           fontFamily: 'DM Sans',
-                          fontSize: fontSize,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF343A40),
                           letterSpacing: -0.5,
@@ -91,26 +86,29 @@ class CustomMonthNavigation extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Mês seguinte
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    displayedMonths[2],
-                    style: TextStyle(
-                      fontFamily: 'DM Sans',
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF495057),
-                      letterSpacing: -0.5,
-                      height: 1.4,
+                // Mês seguinte (clicável)
+                GestureDetector(
+                  onTap: () => onMonthChanged(1), // Seleciona o mês seguinte
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      displayedMonths[2],
+                      style: TextStyle(
+                        fontFamily: 'DM Sans',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF495057),
+                        letterSpacing: -0.5,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          // Espaço entre os meses e o ícone de navegação
-          SizedBox(width: 16), // Equivalente ao gap: 16px no CSS
+
+          SizedBox(width: 16), // Espaço entre os meses e o ícone de navegação
           IconButton(
             icon: Icon(Icons.chevron_right),
             onPressed: () => onMonthChanged(1), // Mês seguinte
