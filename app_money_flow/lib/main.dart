@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'src/widgets/CustomMonthNavigation.dart'; // Importe o widget corretamente
+import 'src/widgets/CustomTransactionCard.dart'; // Importe o CustomTransactionCard
 
 void main() {
   runApp(MyApp());
@@ -47,11 +48,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("My Expenses")),
+      backgroundColor: Color(0xFFF8F9FA),
       body: Center(
         child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment
-                  .center, // Centraliza verticalmente os itens no Column
           children: [
             CustomMonthNavigation(
               currentMonthIndex: currentMonthIndex,
@@ -93,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Card(
+                  color: Color(0xFFFFFFFF),
                   margin: EdgeInsets.all(16),
                   elevation: 4,
                   child: Padding(
@@ -164,6 +164,13 @@ class _HomePageState extends State<HomePage> {
                   textAlign: TextAlign.center, // Alinhamento centralizado
                 ),
               ),
+            // Adicionando o CustomTransactionCard abaixo do gráfico
+            CustomTransactionCard(
+              icon: Icons.shopping_cart, // Exemplo de ícone
+              title: "Principal Gasto", // Título
+              value: "Roupas", // Substituímos o valor por "Roupas"
+              extraText: "-R\$ 693,00", // Texto único com o valor negativo
+            ),
           ],
         ),
       ),
@@ -193,7 +200,7 @@ class _HomePageState extends State<HomePage> {
       ),
       PieChartSectionData(
         color: const Color.fromRGBO(140, 233, 154, 1),
-        value: 16,
+        value: 30,
         radius: 20,
         title: '',
       ),
