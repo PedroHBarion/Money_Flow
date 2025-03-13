@@ -154,7 +154,13 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                   ),
                   textAlign: TextAlign.center, // Alinhamento centralizado
                 ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(" ", style: TextStyle(fontSize: 17)),
               ),
+
             // Adicionando o CustomTransactionCard abaixo do gráfico
             CustomTransactionCard(
               icon: Icons.shopping_cart, // Exemplo de ícone
