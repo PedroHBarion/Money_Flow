@@ -6,19 +6,21 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return AppBar(
-      backgroundColor: Color(0xFFF8FFFD),
-      elevation: 0,
-      title: Row(
+    return Container(
+      color: Color(0xFFFFFFFF),
+      margin: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      alignment: Alignment.bottomCenter,
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            children:  [
-               SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: SvgPicture.asset('assets/icons/icon_app_green.svg'),
-                ),
+            children: [
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: SvgPicture.asset('assets/icons/icon_app_green.svg'),
+              ),
               SizedBox(width: 8),
               Text(
                 'MoneyFlow',
@@ -33,7 +35,8 @@ class CustomAppBar extends StatelessWidget {
           Row(
             children: const [
               IconButton(
-                icon: Icon(Icons.notifications_outlined, color: Color(0xFF087F5B)),
+                icon: Icon(Icons.notifications_outlined,
+                    color: Color(0xFF087F5B)),
                 onPressed: null, // Adicione a função desejada aqui
               ),
               SizedBox(width: 8),
@@ -41,7 +44,8 @@ class CustomAppBar extends StatelessWidget {
                 backgroundColor: Color(0xFF087F5B),
                 child: Text(
                   'AT',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
