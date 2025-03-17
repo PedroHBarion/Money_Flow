@@ -6,6 +6,7 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       color: Color(0xFFFFFFFF),
       margin: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 16),
@@ -57,4 +58,7 @@ class CustomAppBar extends StatelessWidget {
       ),
     );
   }
+
 }
+
+
