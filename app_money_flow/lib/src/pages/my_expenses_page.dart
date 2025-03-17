@@ -14,22 +14,8 @@ class MyExpensesPage extends StatefulWidget {
 
 class _MyExpensesPage extends State<MyExpensesPage> {
   int currentMonthIndex = 0; // Exemplo de índice de mês selecionado
-  List<String> months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
   int touchedIndex = -1; // Índice de seção tocada
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +29,6 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           children: [
             CustomMonthNavigation(
               currentMonthIndex: currentMonthIndex,
-              months: months,
               onMonthChanged: (newIndex) {
                 setState(() {
                   currentMonthIndex = newIndex;

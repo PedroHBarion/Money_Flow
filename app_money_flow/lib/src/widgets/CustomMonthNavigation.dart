@@ -2,17 +2,31 @@ import 'package:flutter/material.dart';
 
 class CustomMonthNavigation extends StatelessWidget {
   final int currentMonthIndex;
-  final List<String> months;
   final Function(int) onMonthChanged; // Função de callback para notificar o pai
 
   CustomMonthNavigation({
     required this.currentMonthIndex,
-    required this.months,
     required this.onMonthChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Lista de meses diretamente no widget
+    List<String> months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
     // Meses para exibir: anterior, atual, próximo
     List<String> displayedMonths = [
       months[(currentMonthIndex - 1 + 12) % 12], // Mês anterior
@@ -21,16 +35,22 @@ class CustomMonthNavigation extends StatelessWidget {
     ];
 
     return Container(
-      width: 311,
+      width: 311, // Largura definida conforme seu CSS
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment:
+            CrossAxisAlignment
+                .center, // Equivalente ao align-items: center no CSS
         children: [
           IconButton(
             icon: Icon(Icons.chevron_left),
-            onPressed: () => onMonthChanged((currentMonthIndex - 1 + 12) % 12), // Mês anterior
+            onPressed:
+                () => onMonthChanged(
+                  (currentMonthIndex - 1 + 12) % 12,
+                ), // Mês anterior
           ),
-          SizedBox(width: 16),
+          SizedBox(width: 16), // Espaço entre os ícones e os meses
+
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +58,8 @@ class CustomMonthNavigation extends StatelessWidget {
               children: [
                 // Mês anterior (clicável)
                 GestureDetector(
-                  onTap: () => onMonthChanged((currentMonthIndex - 1 + 12) % 12),
+                  onTap:
+                      () => onMonthChanged((currentMonthIndex - 1 + 12) % 12),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
@@ -61,8 +82,8 @@ class CustomMonthNavigation extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: 40, // Ajustado para ficar mais encaixado
+                        height: 40, // Ajustado para ficar mais encaixado
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
@@ -104,10 +125,11 @@ class CustomMonthNavigation extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 16),
+
+          SizedBox(width: 16), // Espaço entre os meses e o ícone de navegação
           IconButton(
             icon: Icon(Icons.chevron_right),
-            onPressed: () => onMonthChanged((currentMonthIndex + 1) % 12), // Mês seguinte
+            onPressed: () => onMonthChanged((currentMonthIndex + 1) % 12),
           ),
         ],
       ),
