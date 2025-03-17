@@ -29,14 +29,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
     'Dec',
   ];
 
-  void changeMonth(int direction) {
-    setState(() {
-      currentMonthIndex = (currentMonthIndex + direction) % 12;
-    });
-  }
-
   int touchedIndex = -1; // Índice de seção tocada
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +44,11 @@ class _MyExpensesPage extends State<MyExpensesPage> {
             CustomMonthNavigation(
               currentMonthIndex: currentMonthIndex,
               months: months,
-              onMonthChanged: changeMonth,
+              onMonthChanged: (newIndex) {
+                setState(() {
+                  currentMonthIndex = newIndex;
+                });
+              },
             ),
             SizedBox(height: 20), // Espaçamento entre os elementos
             Row(

@@ -21,19 +21,16 @@ class CustomMonthNavigation extends StatelessWidget {
     ];
 
     return Container(
-      width: 311, // Largura definida conforme seu CSS
+      width: 311,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment:
-            CrossAxisAlignment
-                .center, // Equivalente ao align-items: center no CSS
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             icon: Icon(Icons.chevron_left),
-            onPressed: () => onMonthChanged(-1), // Mês anterior
+            onPressed: () => onMonthChanged((currentMonthIndex - 1 + 12) % 12), // Mês anterior
           ),
-          SizedBox(width: 16), // Espaço entre os ícones e os meses
-
+          SizedBox(width: 16),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +38,7 @@ class CustomMonthNavigation extends StatelessWidget {
               children: [
                 // Mês anterior (clicável)
                 GestureDetector(
-                  onTap: () => onMonthChanged(-1), // Seleciona o mês anterior
+                  onTap: () => onMonthChanged((currentMonthIndex - 1 + 12) % 12),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
@@ -64,8 +61,8 @@ class CustomMonthNavigation extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       Container(
-                        width: 40, // Ajustado para ficar mais encaixado
-                        height: 40, // Ajustado para ficar mais encaixado
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
@@ -88,7 +85,7 @@ class CustomMonthNavigation extends StatelessWidget {
                 ),
                 // Mês seguinte (clicável)
                 GestureDetector(
-                  onTap: () => onMonthChanged(1), // Seleciona o mês seguinte
+                  onTap: () => onMonthChanged((currentMonthIndex + 1) % 12),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
@@ -107,11 +104,10 @@ class CustomMonthNavigation extends StatelessWidget {
               ],
             ),
           ),
-
-          SizedBox(width: 16), // Espaço entre os meses e o ícone de navegação
+          SizedBox(width: 16),
           IconButton(
             icon: Icon(Icons.chevron_right),
-            onPressed: () => onMonthChanged(1), // Mês seguinte
+            onPressed: () => onMonthChanged((currentMonthIndex + 1) % 12), // Mês seguinte
           ),
         ],
       ),
