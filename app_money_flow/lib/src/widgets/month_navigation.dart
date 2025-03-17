@@ -5,7 +5,7 @@ class MonthNavigation extends StatelessWidget {
   final List<String> months;
   final Function(int) onMonthChanged; // Função de callback para notificar o pai
 
-  MonthNavigation({
+  const MonthNavigation({super.key, 
     required this.currentMonthIndex,
     required this.months,
     required this.onMonthChanged,
@@ -20,7 +20,7 @@ class MonthNavigation extends StatelessWidget {
       months[(currentMonthIndex + 1) % 12], // Mês seguinte
     ];
 
-    return Container(
+    return SizedBox(
       width: 311, // Largura definida conforme seu CSS
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,6 +35,7 @@ class MonthNavigation extends StatelessWidget {
 
           Expanded(
             child: Row(
+
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

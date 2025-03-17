@@ -12,6 +12,7 @@ class CustomAppBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.bottomCenter,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
@@ -33,10 +34,12 @@ class CustomAppBar extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
               IconButton(
                 icon: Icon(Icons.notifications_outlined,
                     color: Color(0xFF087F5B)),
+                  color: Color(0xffffffff),
                 onPressed: null, // Adicione a função desejada aqui
               ),
               SizedBox(width: 8),

@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 
-class AccountBalanceCard extends StatelessWidget {
+class AccountBalanceCard extends StatefulWidget {
   const AccountBalanceCard({super.key});
 
+  @override
+  State<AccountBalanceCard> createState() => _AccountBalanceCardState();
+}
+
+class _AccountBalanceCardState extends State<AccountBalanceCard> {
+   bool isHidden = false;
+
+  var onPressed = () {
+    print("Botão pressionado!");
+  };
+ 
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -24,19 +35,27 @@ class AccountBalanceCard extends StatelessWidget {
           ),
           Row(
            children: [
-            const Text(
+            Text(
             'R\$ 100,00',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFFFFFFF)),
-            ),
+           style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: isHidden ? Colors.transparent : Colors.white, // Oculta o texto
+                shadows: isHidden
+                    ? [Shadow(offset: Offset(0, 0), blurRadius: 50, color: Colors.white)]
+                    : [], // Aplica um "borrado" fake
+              ),),
+              SizedBox(width: 8),
              IconButton(
-                icon: const Icon(
-                  Icons.visibility_off ,
-                  color: Color(0xFFFFFFFF)
+                icon: Icon(
+                  isHidden ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    isHidden = !isHidden;
+                  });
+                },
               ),
            ],
           ),
@@ -52,18 +71,50 @@ class AccountBalanceCard extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
+                spacing: 8,
                 children: [
                   CustomAccountCard(
                     icon: Icons.account_balance_wallet,
                     accountName: 'Nubank',
                     balance: 'R\$ 123,00',
                   ),
-                  SizedBox(width: 8),
+                  
                   CustomAccountCard(
                     icon: Icons.account_balance_wallet,
                     accountName: 'Nubank',
                     balance: 'R\$ 123,00',
                   ),
+                  ElevatedButton(
+                      onPressed: onPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF087F5B), 
+                        foregroundColor: Color(0xFFFFFFFF),
+                        fixedSize: Size(265, 200),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(color: Color(0xffffffff),)
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            padding: const EdgeInsets.all(5),
+                            child: const Icon(Icons.add, size: 24, color: Color(0xffffffff),),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            "Cadastre uma\nnova conta",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),),
+                  
                 ],
               ),
             )

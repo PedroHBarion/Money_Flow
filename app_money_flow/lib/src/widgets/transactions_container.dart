@@ -1,4 +1,5 @@
 import 'package:app_money_flow/src/widgets/dropdown_transaction.dart';
+import 'package:app_money_flow/src/widgets/filter_modal.dart';
 import 'package:app_money_flow/src/widgets/month_navigation.dart';
 import 'package:app_money_flow/src/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,9 @@ class TransactionsContainer extends StatefulWidget {
 }
 
 class _TransactionsContainerState extends State<TransactionsContainer> {
+  String? selectedAccount;
+  int? selectedYear;
+
   int currentMonthIndex = 0; // Exemplo de índice de mês selecionado
   List<String> months = [
     'Jan',
@@ -34,6 +38,23 @@ class _TransactionsContainerState extends State<TransactionsContainer> {
     });
   }
 
+  void _openFilterModal() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return FilterModal(
+          onAccountSelected: (account) {
+            setState(() => selectedAccount = account);
+          },
+          onYearSelected: (year) {
+            setState(() => selectedYear = year);
+          },
+        );
+      },
+    );
+  }
+
   int touchedIndex = -1; // Índice de seção tocada
 
   @override
@@ -52,7 +73,7 @@ class _TransactionsContainerState extends State<TransactionsContainer> {
               children: [
                 DropdownTransaction(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: _openFilterModal,
                   icon: SvgPicture.asset('assets/icons/filter_icon.svg'),
                 )
               ],
@@ -64,8 +85,8 @@ class _TransactionsContainerState extends State<TransactionsContainer> {
               onMonthChanged: changeMonth,
             ),
             SizedBox(height: 10),
-            Container(
-              child: Column(
+            
+               Column(
                 children: [
                   TransactionCard(
                     color: 0xFFEBFBEE,
@@ -111,7 +132,7 @@ class _TransactionsContainerState extends State<TransactionsContainer> {
                   ),
                 ],
               ),
-            )
+            
           ],
         ));
   }
