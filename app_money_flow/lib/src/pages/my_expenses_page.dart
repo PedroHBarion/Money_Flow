@@ -1,6 +1,7 @@
 import 'package:app_money_flow/src/widgets/CustomMonthNavigation.dart';
 import 'package:app_money_flow/src/widgets/CustomTransactionCard.dart';
 import 'package:app_money_flow/src/widgets/SavingsSuggestionCard.dart';
+import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -39,7 +40,10 @@ class _MyExpensesPage extends State<MyExpensesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Expenses")),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: CustomAppBar(),
+      ),
       backgroundColor: Color(0xFFF8F9FA),
       body: Center(
         child: Column(
