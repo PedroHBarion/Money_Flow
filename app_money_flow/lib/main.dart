@@ -1,5 +1,6 @@
 
 import 'package:app_money_flow/src/pages/home.dart';
+import 'package:app_money_flow/src/pages/create_user_profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,7 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,4 +19,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
