@@ -77,18 +77,18 @@ class CustomMonthNavigation extends StatelessWidget {
                 ),
                 // Mês atual (com a bola branca)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Container(
-                        width: 40, // Ajustado para ficar mais encaixado
-                        height: 40, // Ajustado para ficar mais encaixado
+                        width: 45, // Ajustado para ficar mais encaixado
+                        height: 45, // Ajustado para ficar mais encaixado
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white,
+                          color: const Color(0xFFFFFFFF),
                         ),
-                        margin: const EdgeInsets.only(bottom: 8.0),
+                        margin: const EdgeInsets.only(bottom: 6.0),
                       ),
                       Text(
                         displayedMonths[1],
