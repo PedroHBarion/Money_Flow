@@ -1,5 +1,6 @@
 import 'package:app_money_flow/src/widgets/CustomMonthNavigation.dart';
 import 'package:app_money_flow/src/widgets/CustomTransactionCard.dart';
+import 'package:app_money_flow/src/widgets/SavingsSuggestionCard.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -168,6 +169,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
               value: "Roupas", // Substituímos o valor por "Roupas"
               extraText: "-R\$ 693,00", // Texto único com o valor negativo
             ),
+            SavingsSuggestionCard(),
           ],
         ),
       ),
