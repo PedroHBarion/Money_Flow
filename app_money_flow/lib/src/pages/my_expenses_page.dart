@@ -1,6 +1,6 @@
-import 'package:app_money_flow/src/widgets/CustomMonthNavigation.dart';
-import 'package:app_money_flow/src/widgets/CustomTransactionCard.dart';
-import 'package:app_money_flow/src/widgets/SavingsSuggestionCard.dart';
+import 'package:app_money_flow/src/widgets/custom_month_navigation.dart';
+import 'package:app_money_flow/src/widgets/custom_transaction_card.dart';
+import 'package:app_money_flow/src/widgets/savings_suggestion_card.dart';
 import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
