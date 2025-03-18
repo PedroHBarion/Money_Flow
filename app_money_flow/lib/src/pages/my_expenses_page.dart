@@ -49,7 +49,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -61,8 +61,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 29.5,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -117,7 +117,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -129,8 +129,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 32,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -156,7 +156,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -169,7 +169,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -185,7 +185,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -197,8 +197,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 35,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -224,7 +224,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -237,7 +237,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -253,7 +253,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -265,8 +265,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 18,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -279,7 +279,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -292,7 +292,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -305,7 +305,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -321,7 +321,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -333,8 +333,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 22,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -347,7 +347,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -360,7 +360,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -373,7 +373,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -390,7 +390,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -402,8 +402,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 27,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -416,7 +416,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -429,7 +429,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -442,7 +442,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -458,7 +458,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -470,8 +470,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 25,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -484,7 +484,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -497,7 +497,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -510,7 +510,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -526,7 +526,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -538,8 +538,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 25,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -552,7 +552,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -565,7 +565,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -578,7 +578,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -594,7 +594,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -606,8 +606,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 22,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -620,7 +620,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -633,7 +633,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -646,7 +646,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -662,7 +662,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -674,8 +674,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 20,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -688,7 +688,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -701,7 +701,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -714,7 +714,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -730,7 +730,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Roupas',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -742,8 +742,8 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           value: 35,
           radius: 20,
           showTitle: true,
-          title: 'Alimentação',
-          titlePositionPercentageOffset: 2.5,
+          title: 'Educação',
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -756,7 +756,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Gasolina',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -769,7 +769,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Compras Online',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -782,7 +782,7 @@ class _MyExpensesPage extends State<MyExpensesPage> {
           radius: 20,
           showTitle: true,
           title: 'Varejo',
-          titlePositionPercentageOffset: 2.5,
+          titlePositionPercentageOffset: 2.65,
           titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -911,29 +911,6 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                   ),
                 ),
               ),
-              if (touchedIndex != -1)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    getTitleForSection(touchedIndex),
-                    style: TextStyle(
-                      color: Color(0xFF087F5B), // Cor #087F5B
-                      fontFamily: 'DM Sans', // Família "DM Sans"
-                      fontSize: 16, // Tamanho da fonte 16px
-                      fontWeight: FontWeight.w600, // Peso da fonte 600
-                      height: 1.5, // Line-height 150% (1.5 em Flutter)
-                      letterSpacing: -0.5, // Espaçamento entre letras -0.5px
-                      fontStyle: FontStyle.normal, // Estilo normal
-                    ),
-                    textAlign: TextAlign.center, // Alinhamento centralizado
-                  ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(" ", style: TextStyle(fontSize: 17)),
-                ),
-
               // Adicionando o CustomTransactionCard abaixo do gráfico
               CustomTransactionCard(
                 icon: Icons.shopping_cart, // Exemplo de ícone
@@ -947,23 +924,5 @@ class _MyExpensesPage extends State<MyExpensesPage> {
         ),
       ),
     );
-  }
-
-  // Função para retornar o título de acordo com o índice
-  String getTitleForSection(int index) {
-    switch (index) {
-      case 0:
-        return 'Roupas';
-      case 1:
-        return 'Alimentação';
-      case 2:
-        return 'Gasolina';
-      case 3:
-        return 'Compras Online';
-      case 4:
-        return 'Varejo';
-      default:
-        return '';
-    }
   }
 }
