@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+class QuestionDTO {
+  final String question;
+  final List<String> options;
+
+  QuestionDTO({required this.question, required this.options});
+
+  factory QuestionDTO.fromMap(Map<String, dynamic> map) {
+    return QuestionDTO(
+      question: map['question'] as String,
+      options: List<String>.from(map['options']),
+    );
+  }
+}
+
 class CreateUserProfile1 extends StatefulWidget {
   const CreateUserProfile1({super.key});
 
@@ -12,7 +26,7 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
   int _currentStep = 0;
   String? _selectedOption;
 
-  final List<Map<String, dynamic>> _questions = [
+  final List<QuestionDTO> _questions = [
     {
       'question': 'Qual sua principal\nfonte de renda?',
       'options': [
@@ -24,13 +38,11 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
       ],
     },
     {
-      'question':
-          'Você já teve dificuldades para fechar o mês financeiramente?',
+      'question': 'Você já teve dificuldades para fechar o mês financeiramente?',
       'options': [
-        'Sim, frequentmente',
-        'Ás vezes, depende dos gastos',
+        'Sim, frequentemente',
+        'Às vezes, depende dos gastos',
         'Não, costumo me planejar bem',
-        ''
       ],
     },
     {
@@ -39,29 +51,28 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
         'Gastar menos com lazer/compras impulsivas',
         'Economizar dinheiro para investimentos',
         'Organizar melhor as contas fixas',
-        'Aprender mais sobre financas',
+        'Aprender mais sobre finanças',
       ],
     },
     {
-      'question': 'O que você mais quer melhoras nas suas finanças?',
+      'question': 'O que você mais quer melhorar nas suas finanças?',
       'options': [
         'Aprender a economizar mais',
         'Criar um orçamento mensal',
         'Controlar melhor meus gastos diários',
-        'Descobrie formas sustentáveis de consumir',
+        'Descobrir formas sustentáveis de consumir',
       ],
     },
-  ];
+  ].map((q) => QuestionDTO.fromMap(q)).toList();
 
   void _nextQuestion() {
     if (_selectedOption != null) {
       if (_currentStep < _questions.length - 1) {
         setState(() {
           _currentStep++;
-          _selectedOption = null; // Reseta a opção selecionada
+          _selectedOption = null;
         });
       } else {
-        // Aqui você pode navegar para outra página ou exibir um resumo
         print("Finalizado: $_selectedOption");
       }
     }
@@ -76,7 +87,6 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
         child: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          shadowColor: Colors.transparent,
           centerTitle: true,
           title: Column(
             children: [
@@ -114,32 +124,28 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _questions[_currentStep]['question'],
+              _questions[_currentStep].question,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ..._questions[_currentStep]['options'].map<Widget>(
+            ..._questions[_currentStep].options.map<Widget>(
               (option) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: SizedBox(
                   width: double.infinity,
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(
-                          color:
-                              _selectedOption == option
-                                  ? Colors.green
-                                  : Colors.black12,
+                          color: _selectedOption == option
+                              ? Colors.green
+                              : Colors.black12,
                         ),
                       ),
                       backgroundColor:
-                          _selectedOption == option
-                              ? Colors.green[100]
-                              : Colors.white,
+                          _selectedOption == option ? Colors.green[100] : Colors.white,
                     ),
                     onPressed: () {
                       setState(() {
@@ -157,10 +163,7 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
                         option,
                         style: TextStyle(
                           fontSize: 16,
-                          color:
-                              _selectedOption == option
-                                  ? Colors.green
-                                  : Colors.black,
+                          color: _selectedOption == option ? Colors.green : Colors.black,
                         ),
                       ),
                     ),
