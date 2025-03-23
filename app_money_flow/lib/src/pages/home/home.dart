@@ -1,6 +1,5 @@
 import 'package:app_money_flow/src/widgets/account_balance_card.dart';
 import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
-import 'package:app_money_flow/src/widgets/navigation_bar.dart';
 import 'package:app_money_flow/src/widgets/transactions_container.dart';
 import 'package:flutter/material.dart';
 
@@ -39,11 +38,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-        ),
-        bottomNavigationBar: CustomNavigationBar(
-            currentIndex: selectedIndex,
-            onItemSelected: onItemSelected,
-      ),
+        )
       );
   }
 }

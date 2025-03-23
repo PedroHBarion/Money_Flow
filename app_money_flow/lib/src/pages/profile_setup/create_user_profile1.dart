@@ -1,3 +1,4 @@
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -63,6 +64,7 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
       } else {
         // Aqui você pode navegar para outra página ou exibir um resumo
         print("Finalizado: $_selectedOption");
+        Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.home);
       }
     }
   }

@@ -1,3 +1,4 @@
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:flutter/gestures.dart'; // Adicione esta linha
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -112,10 +113,7 @@ class CreateUserProfile extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // Navegação para a segunda tela (CreateUserProfile)
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CreateUserProfile()),
-                  );
+                    Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.profileQuestions);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF087F5B),

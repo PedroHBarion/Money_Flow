@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SavingsSuggestionCard extends StatelessWidget {
+  const SavingsSuggestionCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(

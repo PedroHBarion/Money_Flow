@@ -6,7 +6,7 @@ class CustomTransactionCard extends StatelessWidget {
   final String value;
   final String extraText;
 
-  CustomTransactionCard({
+  const CustomTransactionCard({super.key, 
     required this.icon,
     required this.title,
     required this.value,

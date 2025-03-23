@@ -1,4 +1,5 @@
-import 'package:app_money_flow/src/pages/login_page.dart';
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
+import 'package:app_money_flow/src/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -110,6 +111,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: Colors.green,
         ),
       );
+
+     Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.profile);
     }
   }
 

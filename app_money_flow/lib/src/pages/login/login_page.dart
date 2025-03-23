@@ -1,4 +1,5 @@
-import 'package:app_money_flow/src/pages/create_account_page.dart';
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
+import 'package:app_money_flow/src/pages/register/create_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -74,6 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.green,
         ),
       );
+
+      Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.home);
+
     }
   }
 
