@@ -1,4 +1,4 @@
-import 'package:app_money_flow/src/pages/my_expenses_page.dart';
+import 'package:app_money_flow/src/pages/expenses_page/expenses_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

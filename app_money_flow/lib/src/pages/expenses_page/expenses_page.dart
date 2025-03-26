@@ -1,7 +1,8 @@
+import 'package:app_money_flow/src/pages/expenses_page/widgets/balance_card.dart';
 import 'package:app_money_flow/src/widgets/custom_month_navigation.dart';
-import 'package:app_money_flow/src/widgets/custom_transaction_card.dart';
 import 'package:app_money_flow/src/widgets/savings_suggestion_card.dart';
 import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
+import 'package:app_money_flow/src/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -819,71 +820,31 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                   });
                 },
               ),
+
               SizedBox(height: 20), // Espaçamento entre os elementos
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Card(
-                    // Card Saldo Atual Total
-                    margin: EdgeInsets.all(8),
-                    elevation: 4,
-                    color: const Color(0xFF087F5B),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Saldo Atual Total",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFFFFFFFF),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            "R\$ 59,45",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: const Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  BalanceCard(
+                    title: "Saldo atual total",
+                    subTitle: "R\$: 59,45",
+                    subTitlecolor: Color(0xFFFFFFFF),
+                    titleColor: Color(0xFFFFFFFF),
+                    background: Color(0xFF087F5B),
                   ),
-                  Card(
-                    // Gastos Previstos
-                    color: Color(0xFFFFFFFF),
-                    margin: EdgeInsets.all(8),
-                    elevation: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Gastos Previstos",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            "R\$ 2936,00",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, color: Colors.green),
-                          ),
-                        ],
-                      ),
-                    ),
+                  BalanceCard(
+                    title: "Gastos Previstos",
+                    subTitle: "R\$ 2936,00",
+                    subTitlecolor: Color(0xFF087F5B),
+                    titleColor: Color.fromARGB(255, 0, 0, 0),
+                    background: Color(0xFFFFFFFF),
                   ),
                 ],
               ),
+
               SizedBox(height: 20), // Espaçamento entre os elementos
+
               // Gráfico Doughnut (Gráfico de Rosca)
               SizedBox(
                 height: 200, // Definir o tamanho do gráfico
@@ -911,12 +872,14 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                   ),
                 ),
               ),
-              // Adicionando o CustomTransactionCard abaixo do gráfico
-              CustomTransactionCard(
-                icon: Icons.shopping_cart, // Exemplo de ícone
-                title: "Principal Gasto", // Título
-                value: "Roupas", // Substituímos o valor por "Roupas"
-                extraText: "-R\$ 693,00", // Texto único com o valor negativo
+          
+              TransactionCard(
+                iconPath:
+                    'assets/icons/shopping_cart.svg', //Icons.shopping_cart
+                color: 0xFFFFFFFF,
+                title: "Principal Gasto",
+                date: "Roupas",
+                amount: "-R\$ 693,00",
               ),
               SavingsSuggestionCard(),
             ],
