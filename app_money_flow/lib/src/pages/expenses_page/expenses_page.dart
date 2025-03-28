@@ -1,3 +1,4 @@
+import 'package:app_money_flow/src/core/models/transaction.dart';
 import 'package:app_money_flow/src/pages/expenses_page/widgets/balance_card.dart';
 import 'package:app_money_flow/src/widgets/custom_month_navigation.dart';
 import 'package:app_money_flow/src/widgets/savings_suggestion_card.dart';
@@ -5,18 +6,19 @@ import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
 import 'package:app_money_flow/src/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:app_money_flow/src/core/services/expense_service.dart';
 
 class MyExpensesPage extends StatefulWidget {
   const MyExpensesPage({super.key});
 
   @override
-  _MyExpensesPage createState() => _MyExpensesPage();
+  _MyExpensesPageState createState() => _MyExpensesPageState();
 }
 
-class _MyExpensesPage extends State<MyExpensesPage> {
+class _MyExpensesPageState extends State<MyExpensesPage> {
   int currentMonthIndex = 0; // Índice do mês selecionado
-  int touchedIndex = -1; // Índice de seção tocada
   List<PieChartSectionData> chartData = []; // Dados do gráfico
+  List<Transaction> transactions = []; // Lista de transações
 
   @override
   void initState() {
@@ -26,161 +28,81 @@ class _MyExpensesPage extends State<MyExpensesPage> {
     ); // Buscar dados iniciais para o mês atual
   }
 
-  // Função para buscar os dados do gráfico para um mês específico
-  void _fetchDataForMonth(int monthIndex) {
-    // >>>> Aqui você deve apagar essa parte quando conectar com o backend <<<<
-    // Simulação de dados diferentes para cada mês
-    setState(() {
-      chartData = _generateDataForMonth(monthIndex);
-    });
-    // >>>> Apagar até aqui <<<<
-  }
+  // Função para buscar as transações e gerar os dados para o gráfico
+  void _fetchDataForMonth(int monthIndex) async {
+    ExpenseService expenseService = ExpenseService();
+    try {
+      // Buscar transações usando o ExpenseService
+      List<Transaction> fetchedTransactions =
+          await expenseService.fetchTransactions();
 
-  // Função que simula a geração de dados para um mês específico
-  // >>>> Essa função será removida e substituída por uma chamada ao backend <<<<
-  List<PieChartSectionData> _generateDataForMonth(int monthIndex) {
-    // Exemplo simples: altere os valores conforme o mês muda
-
-    // prettier-ignore-start
-    if (monthIndex == 0) {
-      return [
-        PieChartSectionData(
-          color: Colors.red,
-          value: 25.5,
-          radius: 20,
-          showTitle: true,
-          title: 'Roupas',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.red,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.green,
-          value: 29.5,
-          radius: 20,
-          showTitle: true,
-          title: 'Educação',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.purple,
-          value: 10,
-          radius: 20,
-          showTitle: true,
-          title: 'Gasolina',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.purple,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.orange,
-          value: 20,
-          radius: 20,
-          showTitle: true,
-          title: 'Compras Online',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.orange,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.blue,
-          value: 15,
-          radius: 20,
-          showTitle: true,
-          title: 'Varejo',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
-      ];
-    } else {
-      return [
-        PieChartSectionData(
-          color: Colors.yellow,
-          value: 28,
-          radius: 20,
-          showTitle: true,
-          title: 'Roupas',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.yellow,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.green,
-          value: 32,
-          radius: 20,
-          showTitle: true,
-          title: 'Educação',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.blue,
-          value: 12,
-          radius: 20,
-          showTitle: true,
-          title: 'Gasolina',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.orange,
-          value: 18,
-          radius: 20,
-          showTitle: true,
-          title: 'Compras Online',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.orange,
-          ),
-        ),
-        PieChartSectionData(
-          color: Colors.purple,
-          value: 10,
-          radius: 20,
-          showTitle: true,
-          title: 'Varejo',
-          titlePositionPercentageOffset: 2.65,
-          titleStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.purple,
-          ),
-        ),
-      ];
+      setState(() {
+        transactions = fetchedTransactions;
+        chartData = _generateChartData(monthIndex);
+      });
+    } catch (e) {
+      // Tratar erro caso o carregamento falhe
+      print("Erro ao carregar transações: $e");
     }
   }
-  // >>>> Apagar essa função  <<<<
+
+  // Função que gera os dados do gráfico de acordo com o mês e transações
+  List<PieChartSectionData> _generateChartData(int monthIndex) {
+    // Agrupar as transações por categoria e calcular os totais
+    Map<String, double> categoryTotals = {};
+
+    for (var transaction in transactions) {
+      if (transaction.date.month == monthIndex + 1) {
+        // Verifica se a transação é do mês selecionado
+        if (categoryTotals.containsKey(transaction.category)) {
+          categoryTotals[transaction.category] =
+              categoryTotals[transaction.category]! + transaction.value;
+        } else {
+          categoryTotals[transaction.category] = transaction.value;
+        }
+      }
+    }
+
+    // Gerar os dados para o gráfico de pizza
+    List<PieChartSectionData> sections = [];
+    categoryTotals.forEach((category, total) {
+      Color sectionColor = _getCategoryColor(category);
+      sections.add(
+        PieChartSectionData(
+          color: sectionColor,
+          value: total,
+          radius: 30,
+          showTitle: true,
+          title: '$category\nR\$ ${total.toStringAsFixed(2)}',
+          titlePositionPercentageOffset: 1.5,
+          titleStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: sectionColor,
+          ),
+        ),
+      );
+    });
+    return sections;
+  }
+
+  // Função para determinar a cor do gráfico com base na categoria
+  Color _getCategoryColor(String category) {
+    switch (category) {
+      case 'Roupas':
+        return Colors.red;
+      case 'Educação':
+        return Colors.green;
+      case 'Gasolina':
+        return Colors.purple;
+      case 'Compras Online':
+        return Colors.orange;
+      case 'Varejo':
+        return Colors.blue;
+      default:
+        return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +128,6 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                   });
                 },
               ),
-
               SizedBox(height: 20), // Espaçamento entre os elementos
 
               Row(
@@ -228,7 +149,6 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                   ),
                 ],
               ),
-
               SizedBox(height: 20), // Espaçamento entre os elementos
               // Gráfico Doughnut (Gráfico de Rosca)
               SizedBox(
@@ -238,26 +158,11 @@ class _MyExpensesPage extends State<MyExpensesPage> {
                     sections: chartData,
                     centerSpaceRadius:
                         50, // Espaço no centro para dar efeito "Doughnut"
-                    pieTouchData: PieTouchData(
-                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (event.isInterestedForInteractions &&
-                              pieTouchResponse != null &&
-                              pieTouchResponse.touchedSection != null) {
-                            touchedIndex =
-                                pieTouchResponse
-                                    .touchedSection!
-                                    .touchedSectionIndex;
-                          } else {
-                            touchedIndex = -1;
-                          }
-                        });
-                      },
-                    ),
                   ),
                 ),
               ),
 
+              // Exemplo de transações (pode ser melhorado com dados reais)
               TransactionCard(
                 iconPath:
                     'assets/icons/shopping_cart.svg', //Icons.shopping_cart
