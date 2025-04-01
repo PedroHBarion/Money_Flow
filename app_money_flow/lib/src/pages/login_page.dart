@@ -1,15 +1,13 @@
+<<<<<<< Updated upstream:app_money_flow/lib/src/pages/login_page.dart
 import 'package:app_money_flow/src/pages/create_account_page.dart';
+=======
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
+>>>>>>> Stashed changes:app_money_flow/lib/src/pages/login/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
-  }
-}
+import '../login/login_controller.dart';
+import '../core/routes/app_routes.dart';
+import 'package:app_money_flow/src/widgets/input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,21 +17,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  bool _obscurePassword = true;
-  String? _emailError;
-  String? _passwordError;
+  final LoginController _controller = LoginController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
+<<<<<<< Updated upstream:app_money_flow/lib/src/pages/login_page.dart
   // Validação de e-mail
   bool _isValidEmail(String email) {
     final emailRegex = RegExp(
@@ -77,6 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+=======
+>>>>>>> Stashed changes:app_money_flow/lib/src/pages/login/login_page.dart
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
-          key: _formKey,
+          key: _controller.formKey,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -132,12 +126,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.of(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateAccountPage(),
-                            ),
-                          );
+                            rootNavigator: true,
+                          ).pushNamed(AppRoutes.register);
                         },
                         child: const Text(
                           "Crie uma aqui",
@@ -152,48 +144,48 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Campo de E-mail
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: "E-mail",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    errorText: _emailError,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
+                Input(
+                  label: 'Email',
+                  controller: _controller.emailController,
+                  errorText: _controller.emailError,
                 ),
+                // TextField(
+                //   controller: _controller.emailController,
+                //   decoration: InputDecoration(
+                //     labelText: "E-mail",
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     errorText: _controller.emailError,
+                //   ),
+                //   keyboardType: TextInputType.emailAddress,
+                // ),
                 const SizedBox(height: 15),
-
-                // Campo de Senha
                 TextField(
-                  controller: passwordController,
-                  obscureText: _obscurePassword,
+                  controller: _controller.passwordController,
+                  obscureText: _controller.obscurePassword,
                   decoration: InputDecoration(
                     labelText: "Senha",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    errorText: _passwordError,
+                    errorText: _controller.passwordError,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscurePassword
+                        _controller.obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
                         size: 20,
                       ),
                       onPressed: () {
                         setState(() {
-                          _obscurePassword = !_obscurePassword;
+                          _controller.togglePasswordVisibility();
                         });
                       },
                     ),
                   ),
                   keyboardType: TextInputType.number,
                 ),
-
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -205,7 +197,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: _validateAndLogin,
+                    onPressed: () {
+                      setState(() {
+                        _controller.validateAndLogin(context);
+                      });
+                    },
                     child: const Text(
                       "Entrar",
                       style: TextStyle(color: Colors.white, fontSize: 16),
