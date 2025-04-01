@@ -1,16 +1,8 @@
 import 'package:app_money_flow/src/core/routes/app_routes.dart';
-import 'package:app_money_flow/src/pages/register/create_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
-  }
-}
+import 'login_page_controller.dart';
+import 'package:app_money_flow/src/widgets/input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,65 +12,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  bool _obscurePassword = true;
-  String? _emailError;
-  String? _passwordError;
+  final LoginController _controller = LoginController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _controller.dispose();
     super.dispose();
-  }
-
-  // Validação de e-mail
-  bool _isValidEmail(String email) {
-    final emailRegex = RegExp(
-      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-    );
-    return emailRegex.hasMatch(email);
-  }
-
-  // Validação de senha (8 números)
-  bool _isValidPassword(String password) {
-    final passwordRegex = RegExp(r"^\d{8}$");
-    return passwordRegex.hasMatch(password);
-  }
-
-  void _validateAndLogin() {
-    setState(() {
-      _emailError = null;
-      _passwordError = null;
-
-      if (emailController.text.isEmpty) {
-        _emailError = "O e-mail é obrigatório";
-      } else if (!_isValidEmail(emailController.text)) {
-        _emailError = "E-mail inválido";
-      }
-
-      if (passwordController.text.isEmpty) {
-        _passwordError = "A senha é obrigatória";
-      } else if (!_isValidPassword(passwordController.text)) {
-        _passwordError = "Senha inválida";
-      }
-    });
-
-    if (_emailError == null && _passwordError == null) {
-      // Autenticação bem-sucedida
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Login realizado com sucesso!"),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.home);
-
-    }
   }
 
   @override
@@ -119,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
-          key: _formKey,
+          key: _controller.formKey,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -136,12 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.of(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateAccountPage(),
-                            ),
-                          );
+                            rootNavigator: true,
+                          ).pushNamed(AppRoutes.register);
                         },
                         child: const Text(
                           "Crie uma aqui",
@@ -156,48 +93,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Campo de E-mail
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: "E-mail",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    errorText: _emailError,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
+                Input(
+                  label: 'Email',
+                  controller: _controller.emailController,
+                  errorText: _controller.emailError,
                 ),
                 const SizedBox(height: 15),
-
-                // Campo de Senha
                 TextField(
-                  controller: passwordController,
-                  obscureText: _obscurePassword,
+                  controller: _controller.passwordController,
+                  obscureText: _controller.obscurePassword,
                   decoration: InputDecoration(
                     labelText: "Senha",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    errorText: _passwordError,
+                    errorText: _controller.passwordError,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscurePassword
+                        _controller.obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
                         size: 20,
                       ),
                       onPressed: () {
                         setState(() {
-                          _obscurePassword = !_obscurePassword;
+                          _controller.togglePasswordVisibility();
                         });
                       },
                     ),
                   ),
                   keyboardType: TextInputType.number,
                 ),
-
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -209,7 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: _validateAndLogin,
+                    onPressed: () {
+                      setState(() {
+                        _controller.validateAndLogin(context);
+                      });
+                    },
                     child: const Text(
                       "Entrar",
                       style: TextStyle(color: Colors.white, fontSize: 16),

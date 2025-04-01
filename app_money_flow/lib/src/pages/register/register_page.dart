@@ -1,41 +1,34 @@
 import 'package:app_money_flow/src/core/routes/app_routes.dart';
-import 'package:app_money_flow/src/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CreateAccountPage extends StatelessWidget {
-  const CreateAccountPage({super.key});
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
-    );
-  }
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
 
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+
 
   String? _nameError;
   String? _emailError;
   String? _passwordError;
   String? _confirmPasswordError;
+
 
   @override
   void dispose() {
@@ -46,6 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+
   // Validação de nome (apenas letras)
   bool _isValidName(String name) {
     final nameRegex = RegExp(
@@ -53,6 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ); // Permite apenas letras e espaços
     return nameRegex.hasMatch(name);
   }
+
 
   // Validação de e-mail
   bool _isValidEmail(String email) {
@@ -62,11 +57,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return emailRegex.hasMatch(email);
   }
 
+
   // Validação de senha (8 números)
   bool _isValidPassword(String password) {
     final passwordRegex = RegExp(r"^\d{8}$");
     return passwordRegex.hasMatch(password);
   }
+
 
   void _validateAndRegister() {
     setState(() {
@@ -75,11 +72,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _passwordError = null;
       _confirmPasswordError = null;
 
+
       if (nameController.text.isEmpty) {
         _nameError = "O nome é obrigatório";
       } else if (!_isValidName(nameController.text)) {
         _nameError = "Nome inválido";
       }
+
 
       if (emailController.text.isEmpty) {
         _emailError = "O e-mail é obrigatório";
@@ -87,11 +86,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _emailError = "E-mail inválido";
       }
 
+
       if (passwordController.text.isEmpty) {
         _passwordError = "A senha é obrigatória";
       } else if (!_isValidPassword(passwordController.text)) {
         _passwordError = "Senha inválida";
       }
+
 
       if (confirmPasswordController.text.isEmpty) {
         _confirmPasswordError = "A confirmação de senha é obrigatória";
@@ -99,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _confirmPasswordError = "As senhas precisam ser iguais";
       }
     });
+
 
     if (_nameError == null &&
         _emailError == null &&
@@ -111,10 +113,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: Colors.green,
         ),
       );
-
-     Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.profile);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -169,10 +170,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   GestureDetector(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.of(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                          rootNavigator: true,
+                        ).pushNamed(AppRoutes.login);
                       },
                       child: const Text(
                         "Fazer Login",
@@ -188,6 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 20),
 
+
               // Campo Nome
               TextField(
                 controller: nameController,
@@ -200,6 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               const SizedBox(height: 20),
+
 
               // Campo E-mail
               TextField(
@@ -214,6 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 15),
+
 
               // Campo Senha
               TextField(
@@ -243,6 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 20),
 
+
               // Campo Confirmar Senha
               TextField(
                 controller: confirmPasswordController,
@@ -270,6 +275,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
+
 
               // Botão Criar Conta
               SizedBox(
