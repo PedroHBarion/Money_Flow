@@ -3,7 +3,7 @@ import 'package:app_money_flow/src/pages/profile_setup/create_user_profile1.dart
 import 'package:app_money_flow/src/pages/register/create_account_page.dart';
 import 'package:app_money_flow/src/pages/home/home.dart';
 import 'package:app_money_flow/src/pages/login/login_page.dart';
-import 'package:app_money_flow/src/pages/expenses/my_expenses_page.dart';
+import 'package:app_money_flow/src/pages/expenses/expenses_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
