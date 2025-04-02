@@ -37,7 +37,7 @@ class ExpensesPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         BalanceCard(
                           title: "Saldo atual total",
                           subTitle: "R\$: 59,45",
@@ -47,7 +47,9 @@ class ExpensesPage extends StatelessWidget {
                         ),
                         BalanceCard(
                           title: "Gastos Previstos",
-                          subTitle: "R\$ 2936,00",
+                          subTitle:
+                              "R\$ ${controller.totalExpenses(controller.currentMonthIndex + 1)}",
+
                           subTitlecolor: Color(0xFF087F5B),
                           titleColor: Color.fromARGB(255, 0, 0, 0),
                           background: Color(0xFFFFFFFF),
@@ -55,6 +57,7 @@ class ExpensesPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
+
                     SizedBox(
                       height: 200,
                       child: PieChart(
@@ -64,6 +67,9 @@ class ExpensesPage extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                    const SizedBox(height: 20),
+
                     if (controller.transactions.isNotEmpty)
                       TransactionCard(
                         iconPath: 'assets/icons/shopping_cart.svg',

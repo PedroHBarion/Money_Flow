@@ -48,7 +48,7 @@ class ExpensesController extends ChangeNotifier {
             radius: 30,
             showTitle: true,
             title: '${entry.key}\nR\$ ${entry.value.toStringAsFixed(2)}',
-            titlePositionPercentageOffset: 2.5,
+            titlePositionPercentageOffset: 2,
             titleStyle: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -71,6 +71,12 @@ class ExpensesController extends ChangeNotifier {
 
     // Retorna a transação com o maior valor
     return filteredTransactions.reduce((a, b) => a.value > b.value ? a : b);
+  }
+
+  double totalExpenses(int month) {
+    return transactions
+        .where((transaction) => transaction.date.month == month)
+        .fold(0, (sum, transaction) => sum + transaction.value);
   }
 
   Color _getCategoryColor(String category) {
