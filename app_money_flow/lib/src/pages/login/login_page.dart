@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
 
-      Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.home);
+      Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.main);
 
     }
   }

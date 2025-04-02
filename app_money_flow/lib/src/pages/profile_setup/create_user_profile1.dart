@@ -64,7 +64,7 @@ class _CreateUserProfile1State extends State<CreateUserProfile1> {
       } else {
         // Aqui você pode navegar para outra página ou exibir um resumo
         print("Finalizado: $_selectedOption");
-        Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.home);
+        Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.main);
       }
     }
   }

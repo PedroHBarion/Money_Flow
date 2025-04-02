@@ -1,6 +1,6 @@
+import 'package:app_money_flow/src/core/routes/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_money_flow/src/pages/expenses/expenses_page.dart';
 import 'package:app_money_flow/src/core/controller/expense_controller.dart';
 
 class SavingsSuggestionCard extends StatelessWidget {
@@ -55,7 +55,7 @@ class SavingsSuggestionCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ExpensesPage(),
+                            builder: (context) => MainNavigation(),
                           ),
                         );
                       },
