@@ -86,7 +86,7 @@ class CustomMonthNavigation extends StatelessWidget {
                         height: 40, // Ajustado para ficar mais encaixado
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 236, 236, 236),
                         ),
                         margin: const EdgeInsets.only(bottom: 8.0),
                       ),
