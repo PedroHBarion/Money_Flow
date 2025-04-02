@@ -48,7 +48,7 @@ class ExpensesPage extends StatelessWidget {
                         BalanceCard(
                           title: "Gastos Previstos",
                           subTitle:
-                              "R\$ ${controller.totalExpenses(controller.currentMonthIndex + 1)}",
+                              "R\$ ${controller.totalExpenses(controller.currentMonthIndex)}",
 
                           subTitlecolor: Color(0xFF087F5B),
                           titleColor: Color.fromARGB(255, 0, 0, 0),
@@ -91,7 +91,7 @@ class ExpensesPage extends StatelessWidget {
                                 : "-R\$ 0,00",
                       ),
 
-                    const SavingsSuggestionCard(),
+                    SavingsSuggestionCard(),
                   ],
                 ),
               ),
