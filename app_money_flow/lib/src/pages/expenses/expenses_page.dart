@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:app_money_flow/src/core/services/expense_service.dart';
 
-class MyExpensesPage extends StatefulWidget {
-  const MyExpensesPage({super.key});
+class ExpensesPage extends StatefulWidget {
+  const ExpensesPage({super.key});
 
   @override
-  _MyExpensesPageState createState() => _MyExpensesPageState();
+  _ExpensesPageState createState() => _ExpensesPageState();
 }
 
-class _MyExpensesPageState extends State<MyExpensesPage> {
+class _ExpensesPageState extends State<ExpensesPage> {
   int currentMonthIndex = 0; // Índice do mês selecionado
   List<PieChartSectionData> chartData = []; // Dados do gráfico
   List<Transaction> transactions = []; // Lista de transações

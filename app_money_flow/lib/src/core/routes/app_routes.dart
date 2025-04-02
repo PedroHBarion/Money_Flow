@@ -21,7 +21,7 @@ class AppRoutes {
       profile: (context) => CreateUserProfile(),
       profileQuestions: (context)=> CreateUserProfile1(),
       home: (context) => Home(),
-      expenses: (context) => MyExpensesPage(),
+      expenses: (context) => ExpensesPage(),
     };
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_money_flow/src/pages/expenses/expenses_page.dart';
 
 class SavingsSuggestionCard extends StatelessWidget {
   const SavingsSuggestionCard({super.key});
@@ -19,7 +20,7 @@ class SavingsSuggestionCard extends StatelessWidget {
               children: [
                 Icon(Icons.auto_awesome, color: Colors.green),
                 SizedBox(width: 8),
-                Text(
+                const Text(
                   'Sugestão de economia:',
                   style: TextStyle(
                     fontSize: 18,
@@ -47,19 +48,31 @@ class SavingsSuggestionCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    'Mais sugestões com a IA',
-                    style: TextStyle(
-                      fontFamily: 'DM Sans', // Font family
-                      fontSize: 16, // Font size
-                      fontStyle: FontStyle.normal, // Font style
-                      fontWeight: FontWeight.w400, // Font weight
-                      color: Color(0xFF087F5B), // Color (#087F5B)
-                      height: 1.5, // Line height (150% of font size = 21px)
-                      decoration:
-                          TextDecoration.underline, // Underline decoration
-                      decorationStyle:
-                          TextDecorationStyle.solid, // Solid underline
+                  GestureDetector(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExpensesPage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Mais sugestões com a IA",
+                        style: TextStyle(
+                          fontFamily: 'DM Sans', // Font family
+                          fontSize: 16, // Font size
+                          fontStyle: FontStyle.normal, // Font style
+                          fontWeight: FontWeight.w400, // Font weight
+                          color: Color(0xFF087F5B), // Color (#087F5B)
+                          height: 1.5, // Line height (150% of font size = 21px)
+                          decoration:
+                              TextDecoration.underline, // Underline decoration
+                          decorationStyle:
+                              TextDecorationStyle.solid, // Solid underline
+                        ),
+                      ),
                     ),
                   ),
                 ],
