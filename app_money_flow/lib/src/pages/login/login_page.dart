@@ -1,8 +1,9 @@
 import 'package:app_money_flow/src/core/routes/app_routes.dart';
+import 'package:app_money_flow/src/widgets/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'login_page_controller.dart';
-import 'package:app_money_flow/src/widgets/input.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -85,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(
                             color: Color(0xFF087F5B),
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
+                            decoration: TextDecoration.none,
                           ),
                         ),
                       ),
@@ -97,32 +98,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: 'Email',
                   controller: _controller.emailController,
                   errorText: _controller.emailError,
+                  obscureText: false,
                 ),
                 const SizedBox(height: 15),
-                TextField(
+                 Input(
+                  label: 'Senha',
                   controller: _controller.passwordController,
-                  obscureText: _controller.obscurePassword,
-                  decoration: InputDecoration(
-                    labelText: "Senha",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    errorText: _controller.passwordError,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _controller.obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _controller.togglePasswordVisibility();
-                        });
-                      },
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
+                  errorText: _controller.passwordError,
+                  obscureText: true,
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
