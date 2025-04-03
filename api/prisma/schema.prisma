@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid()) @db.Uuid
+  name     String
+  email    String @unique
+  password String
+
+  bankAccounts BankAccount[]
+  categories   Category[]
+  transactions Transaction[]
+  UserAnswer UserAnswer[]
+
+  @@map("users")
+ 
+}
+
+model Question {
+  id   String @id @default(uuid()) @db.Uuid
+  text String 
+
+  answers Answer[]  
+  UserAnswer UserAnswer[]
+  @@map("questions")
+  
+}
+
+model Answer {
+  id          String  @id @default(uuid()) @db.Uuid
+  questionId  String   @map("question_id") @db.Uuid
+  text        String
+
+  question    Question @relation(fields: [questionId], references: [id] ,onDelete: Cascade)  
+  UserAnswer UserAnswer[]
+  @@map("answers")
+ 
+}
+
+model UserAnswer {
+  id         String @id @default(uuid()) @db.Uuid
+  userId     String @map("user_id") @db.Uuid      
+  questionId String @map("question_id") @db.Uuid
+  answerId   String @map("answer_id") @db.Uuid
+
+  user     User     @relation(fields: [userId], references: [id],onDelete: Cascade)   
+  question Question @relation(fields: [questionId], references: [id] ,onDelete: Cascade) 
+  answer   Answer   @relation(fields: [answerId], references: [id] ,onDelete: Cascade)  
+
+  @@map("user_answers")
+}
+
+enum BankAccountType {
+  CHECKING
+  INVESTMENT
+  CASH
+
+  @@map("bank_account_type")
+}
+
+model BankAccount {
+  id             String          @id @default(uuid()) @db.Uuid
+  userId         String          @map("user_id") @db.Uuid
+  name           String
+  initialBalance Float           @map("initial_balance")
+  type           BankAccountType
+  color          String
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  transactions Transaction[]
+
+  @@map("bank_accounts")
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+
+  @@map("transaction_type")
+}
+
+model Category {
+  id           String          @id @default(uuid()) @db.Uuid
+  userId       String          @map("user_id") @db.Uuid
+  name         String
+  icon         String
+  type         TransactionType
+  transactions Transaction[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("categories")
+}
+
+model Transaction {
+  id            String          @id @default(uuid()) @db.Uuid
+  userId        String          @map("user_id") @db.Uuid
+  bankAccountId String          @map("bank_account_id") @db.Uuid
+  categoryId    String?         @map("category_id") @db.Uuid
+  name          String
+  value         Float
+  date          DateTime
+  type          TransactionType
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  bankAccount BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@map("transactions")
+}
