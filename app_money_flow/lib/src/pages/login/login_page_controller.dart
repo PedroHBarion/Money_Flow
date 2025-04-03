@@ -1,10 +1,13 @@
 import 'package:app_money_flow/src/core/models/login_model.dart';
+import 'package:app_money_flow/src/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final AuthService authService = GetIt.I<AuthService>();
 
   bool obscurePassword = true;
   String? emailError;
@@ -26,7 +29,7 @@ class LoginController {
     return passwordRegex.hasMatch(password);
   }
 
-  void validateAndLogin(BuildContext context) {
+  Future<void> validateAndLogin(BuildContext context) async {
     emailError = null;
     passwordError = null;
 
@@ -43,13 +46,15 @@ class LoginController {
     }
 
     if (emailError == null && passwordError == null) {
-      final user = LoginModel(
+      final loginData = LoginModel(
         email: emailController.text,
         password: passwordController.text,
       );
+     
+      final response = await authService.signin(loginData);
 
-      final userDataJson = user.toJson();
-      print(userDataJson);
+      print(response);
+
     }
   }
 
