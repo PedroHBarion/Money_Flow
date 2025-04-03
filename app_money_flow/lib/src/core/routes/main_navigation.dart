@@ -13,6 +13,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  bool isExpanded = false;
 
   @override
   void initState() {
@@ -47,33 +48,56 @@ class _MainNavigationState extends State<MainNavigation>
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      spreadRadius: 2,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: TabBar(
-                    controller: _tabController,
-                    indicatorColor: Colors.green,
-                    labelColor: Colors.green,
-                    unselectedLabelColor: Colors.black54,
-                    indicatorWeight: 3,
-                    tabs: const [
-                      Tab(icon: Icon(Icons.home, size: 28)),
-                      Tab(icon: Icon(Icons.pie_chart, size: 28)),
-                    ],
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: TabBar(
+                        controller: _tabController,
+                        indicatorColor: Colors.green,
+                        labelColor: Colors.green,
+                        unselectedLabelColor: Colors.black54,
+                        indicatorWeight: 3,
+                        tabs: const [
+                          Tab(icon: Icon(Icons.home, size: 28)),
+                          Tab(icon: Icon(Icons.pie_chart, size: 28)),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  Positioned(
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          isExpanded = !isExpanded;
+                        });
+                      },
+                      backgroundColor: Colors.green,
+                      elevation: 8,
+                      shape: const CircleBorder(),
+                      child: Icon(
+                        isExpanded ? Icons.close : Icons.add,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
