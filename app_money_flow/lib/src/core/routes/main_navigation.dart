@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_money_flow/src/pages/home/home.dart';
 import 'package:app_money_flow/src/pages/expenses/expenses_page.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// Classe responsável por gerenciar a navegação principal do aplicativo.
 class MainNavigation extends StatefulWidget {
@@ -18,7 +19,7 @@ class _MainNavigationState extends State<MainNavigation>
   @override
   void initState() {
     super.initState();
-    /// Inicializa o controlador de abas com duas opções.
+    /// Inicializa o controlador de abas com duas opções: Home e Expenses.
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -35,7 +36,7 @@ class _MainNavigationState extends State<MainNavigation>
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          /// Exibe o conteúdo da aba correspondente.
+          /// Exibe o conteúdo da aba correspondente à seleção do usuário.
           Positioned.fill(
             child: TabBarView(
               controller: _tabController,
@@ -43,7 +44,7 @@ class _MainNavigationState extends State<MainNavigation>
               children: const [Home(), ExpensesPage()],
             ),
           ),
-          /// Barra de navegação flutuante centralizada na parte inferior.
+          /// Barra de navegação flutuante na parte inferior.
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -52,7 +53,15 @@ class _MainNavigationState extends State<MainNavigation>
                 alignment: Alignment.bottomCenter,
                 clipBehavior: Clip.none,
                 children: [
+                  /// Exibe os botões de ação quando expandido.
+                  if (isExpanded)
+                    Positioned(
+                      bottom: 70,
+                      child: _buildActionButtons(),
+                    ),
+                  /// Contêiner estilizado para a barra de navegação inferior.
                   Container(
+                    height:MediaQuery.of(context).size.width * 0.1 ,
                     width: MediaQuery.of(context).size.width * 0.5,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -80,7 +89,9 @@ class _MainNavigationState extends State<MainNavigation>
                       ),
                     ),
                   ),
+                  /// Botão flutuante para exibir ou ocultar ações adicionais.
                   Positioned(
+                    top: -15,
                     child: FloatingActionButton(
                       onPressed: () {
                         setState(() {
@@ -102,6 +113,56 @@ class _MainNavigationState extends State<MainNavigation>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Constrói os botões de ação exibidos ao expandir o menu.
+  Widget _buildActionButtons() {
+    final List<Map<String, dynamic>> options = [
+      {'label': 'Receitas', 'color': Color(0xFFEBFBEE), 'icon': 'assets/icons/income_icon.svg'},
+      {'label': 'Despesas', 'color': Color(0xFFFFF5F5), 'icon': 'assets/icons/expense_icon.svg'},
+      {'label': 'Transações', 'color': Color(0xFFEDF2FF), 'icon': 'assets/icons/bank_icon.svg'},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 8,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: options.map((option) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                backgroundColor: option['color'],
+                radius: 16,
+                child: SvgPicture.asset(option['icon'], width: 20, height: 20),
+              ),
+              SizedBox(width: 10),
+              Text(
+                option['label'],
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xff343A40),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        )).toList(),
       ),
     );
   }
