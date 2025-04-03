@@ -8,7 +8,7 @@ class ExpenseService {
     try {
       // Carregar o arquivo JSON
       final String response = await rootBundle.loadString(
-        'data/transactions.json',
+        'assets/data/transactions.json',
       );
 
       // Converter o JSON para uma lista de objetos
