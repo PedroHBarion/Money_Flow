@@ -147,49 +147,64 @@ class _MainNavigationState extends State<MainNavigation>
       },
     ];
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: options.map((option) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
-              ),
-            ),
-            onPressed: () {
-              print("${option['label']} clicado!");
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  backgroundColor: option['color'],
-                  radius: 16,
-                  child: SvgPicture.asset(
-                    option['icon'],
-                    width: 20,
-                    height: 20,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(color: Colors.black26, blurRadius: 8, spreadRadius: 2),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Alinha os botões à esquerda
+        children:
+            options.map((option) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
+                    ),
+                    alignment:
+                        Alignment
+                            .centerLeft, // Mantém o alinhamento do conteúdo à esquerda
+                  ),
+                  onPressed: () {
+                    print("${option['label']} clicado!");
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: option['color'],
+                        radius: 16,
+                        child: SvgPicture.asset(
+                          option['icon'],
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        option['label'],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xff343A40),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 10),
-                Text(
-                  option['label'],
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff343A40),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
+              );
+            }).toList(),
+      ),
     );
   }
 }
