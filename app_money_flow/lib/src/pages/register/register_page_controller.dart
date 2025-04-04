@@ -1,5 +1,7 @@
 import 'package:app_money_flow/src/core/models/register_model.dart';
+import 'package:app_money_flow/src/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class RegisterController {
   final TextEditingController nameController = TextEditingController();
@@ -8,6 +10,7 @@ class RegisterController {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final AuthService authService = GetIt.I<AuthService>();
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
@@ -71,15 +74,15 @@ class RegisterController {
     }
 
     if (emailError == null && passwordError == null) {
-      final user = RegisterModel(
+      final registerData = RegisterModel(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
-        confirmPassword: confirmPasswordController.text,
       );
 
-      final userDataJson = user.toJson();
-      print(userDataJson);
+      final response = authService.signup(registerData);
+
+      print(response);
     }
 
     return nameError == null &&

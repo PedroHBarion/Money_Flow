@@ -20,8 +20,6 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
- 
-
   void _register() {
     setState(() {
       if (_controller.validateFields()) {
@@ -34,8 +32,6 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     });
   }
-
-   
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +85,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   const Text("Já possui uma conta? "),
                   GestureDetector(
                     child: InkWell(
-                      onTap:
-                          () => Navigator.of(
-                            context,
-                            rootNavigator: true,
-                          ).pushNamed(AppRoutes.login),
+                      onTap: () => Navigator.of(
+                        context,
+                        rootNavigator: true,
+                      ).pushNamed(AppRoutes.login),
                       child: const Text(
                         "Fazer Login",
                         style: TextStyle(
