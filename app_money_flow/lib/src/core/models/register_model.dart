@@ -4,11 +4,11 @@ class RegisterModel {
   String name;
   String email;
   String password;
-  String confirmPassword;
 
-  RegisterModel({required this.name, required this.email, required this.password, required this.confirmPassword});
+  RegisterModel(
+      {required this.name, required this.email, required this.password});
 
   String toJson() {
-    return jsonEncode({'name': name, 'email': email, 'password': password, 'confirmPassword': confirmPassword});
+    return jsonEncode({'name': name, 'email': email, 'password': password});
   }
 }

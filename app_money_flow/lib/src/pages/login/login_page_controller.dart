@@ -1,7 +1,9 @@
 import 'package:app_money_flow/src/core/models/login_model.dart';
+import 'package:app_money_flow/src/core/provider/auth_provider.dart';
 import 'package:app_money_flow/src/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 class LoginController {
   final TextEditingController emailController = TextEditingController();
@@ -50,11 +52,10 @@ class LoginController {
         email: emailController.text,
         password: passwordController.text,
       );
-     
+
       final response = await authService.signin(loginData);
 
-      print(response);
-
+      await context.read<AuthProvider>().signin(response);
     }
   }
 
