@@ -1,9 +1,9 @@
+import 'package:app_money_flow/src/widgets/receita_card.dart';
 import 'package:flutter/material.dart';
 import 'package:app_money_flow/src/pages/home/home.dart';
 import 'package:app_money_flow/src/pages/expenses/expenses_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-/// Classe responsável por gerenciar a navegação principal do aplicativo.
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
 
@@ -15,20 +15,25 @@ class _MainNavigationState extends State<MainNavigation>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool isExpanded = false;
+  bool showReceitaCard = false;
 
   @override
   void initState() {
     super.initState();
-
-    /// Inicializa o controlador de abas com duas opções: Home e Expenses.
     _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    /// Libera os recursos do controlador de abas ao fechar a tela.
     _tabController.dispose();
     super.dispose();
+  }
+
+  void toggleReceitaCard() {
+    setState(() {
+      isExpanded = false;
+      showReceitaCard = !showReceitaCard;
+    });
   }
 
   @override
@@ -38,7 +43,6 @@ class _MainNavigationState extends State<MainNavigation>
       body: Stack(
         clipBehavior: Clip.hardEdge,
         children: [
-          /// Exibe o conteúdo da aba correspondente à seleção do usuário.
           Positioned.fill(
             child: TabBarView(
               controller: _tabController,
@@ -47,103 +51,110 @@ class _MainNavigationState extends State<MainNavigation>
             ),
           ),
 
-          /// Barra de navegação flutuante na parte inferior.
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  /// Exibe os botões de ação quando expandido, **acima** do botão verde
-                  if (isExpanded) _buildActionButtons(),
-
-                  /// Container agrupando o botão e a barra de navegação
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      alignment: Alignment.center,
-                      children: [
-                        /// Barra de navegação inferior
-                        Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          height: MediaQuery.of(context).size.width * 0.1,
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 10,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: TabBar(
-                              controller: _tabController,
-                              indicatorColor: Colors.green,
-                              labelColor: Colors.green,
-                              unselectedLabelColor: Colors.black54,
-                              indicatorWeight: 3,
-                              tabs: const [
-                                Tab(icon: Icon(Icons.home, size: 28)),
-                                Tab(icon: Icon(Icons.pie_chart, size: 28)),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        /// Botão flutuante sobreposto à barra
-                        Positioned(
-                          child: FloatingActionButton(
-                            onPressed: () {
-                              setState(() {
-                                isExpanded = !isExpanded;
-                              });
-                            },
-                            backgroundColor: Colors.green,
-                            elevation: 8,
-                            shape: const CircleBorder(),
-                            child: Icon(
-                              isExpanded ? Icons.close : Icons.add,
-                              size: 30,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+          if (showReceitaCard) ...[
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: ReceitaCard(onClose: toggleReceitaCard, onDelete: () {},onSave: (){},),
               ),
             ),
-          ),
+          ],
+
+          if (!showReceitaCard)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isExpanded) _buildActionButtons(),
+
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            height: MediaQuery.of(context).size.width * 0.1,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: TabBar(
+                                controller: _tabController,
+                                indicatorColor: Colors.green,
+                                labelColor: Colors.green,
+                                unselectedLabelColor: Colors.black54,
+                                indicatorWeight: 3,
+                                tabs: const [
+                                  Tab(icon: Icon(Icons.home, size: 28)),
+                                  Tab(icon: Icon(Icons.pie_chart, size: 28)),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          Positioned(
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              backgroundColor: Colors.green,
+                              elevation: 8,
+                              shape: const CircleBorder(),
+                              child: Icon(
+                                isExpanded ? Icons.close : Icons.add,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 
-  /// Constrói os botões de ação exibidos ao expandir o menu.
   Widget _buildActionButtons() {
     final List<Map<String, dynamic>> options = [
       {
         'label': 'Receitas',
         'color': Color(0xFFEBFBEE),
         'icon': 'assets/icons/income_icon.svg',
+        'onTap': toggleReceitaCard,
       },
       {
         'label': 'Despesas',
         'color': Color(0xFFFFF5F5),
         'icon': 'assets/icons/expense_icon.svg',
+        'onTap': toggleReceitaCard,
       },
       {
         'label': 'Transações',
         'color': Color(0xFFEDF2FF),
         'icon': 'assets/icons/bank_icon.svg',
+        'onTap': toggleReceitaCard,
       },
     ];
 
@@ -157,8 +168,7 @@ class _MainNavigationState extends State<MainNavigation>
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment:
-            CrossAxisAlignment.start, // Alinha os botões à esquerda
+        crossAxisAlignment: CrossAxisAlignment.start,
         children:
             options.map((option) {
               return Padding(
@@ -171,13 +181,9 @@ class _MainNavigationState extends State<MainNavigation>
                       vertical: 10,
                       horizontal: 15,
                     ),
-                    alignment:
-                        Alignment
-                            .centerLeft, // Mantém o alinhamento do conteúdo à esquerda
+                    alignment: Alignment.centerLeft,
                   ),
-                  onPressed: () {
-                    print("${option['label']} clicado!");
-                  },
+                  onPressed: option['onTap'],
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
