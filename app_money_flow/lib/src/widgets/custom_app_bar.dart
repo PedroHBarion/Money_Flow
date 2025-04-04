@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({super.key});
@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget {
               SizedBox(
                 width: 24,
                 height: 24,
-                child: SvgPicture.asset('assets/icons/icon_app_green.svg'),
+                //child: SvgPicture.asset('assets/icons/icon_app_green.svg'),
               ),
               SizedBox(width: 8),
               Text(
