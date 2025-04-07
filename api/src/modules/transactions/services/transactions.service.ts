@@ -46,7 +46,63 @@ export class TransactionsService {
           lt: new Date(Date.UTC(filters.year, filters.month + 1)),
         },
       },
+      include: {
+        category: {
+          select: {
+            id: true,
+            name: true,
+            icon: true,
+          },
+        },
+      },
     });
+  }
+
+  async findTransactionExpenseValueByCategory(
+    userId: string,
+    filters: {
+      month: number;
+      year: number;
+    },
+  ) {
+    const transactions = await this.transactionsRepo.findManyByCategory({
+      where: {
+        userId,
+        type: 'EXPENSE',
+        date: {
+          gte: new Date(Date.UTC(filters.year, filters.month)),
+          lt: new Date(Date.UTC(filters.year, filters.month + 1)),
+        },
+      },
+      include: {
+        category: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    const grouped = transactions.reduce(
+      (acc, { category, value }) => {
+        if (!category) return acc;
+
+        if (!acc[category.id]) {
+          acc[category.id] = {
+            id: category.id,
+            name: category.name,
+            value: 0,
+          };
+        }
+
+        acc[category.id].value += value;
+        return acc;
+      },
+      {} as Record<string, { id: string; name: string; value: number }>,
+    );
+
+    return Object.values(grouped);
   }
 
   async update(
