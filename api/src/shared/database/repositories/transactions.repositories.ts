@@ -18,6 +18,12 @@ export class TransactionRepository {
     return this.prismaService.transaction.findMany(findManyDto);
   }
 
+  findManyByCategory<T extends Prisma.TransactionFindManyArgs>(
+    findManyDto: Prisma.SelectSubset<T, Prisma.TransactionFindManyArgs>,
+  ) {
+    return this.prismaService.transaction.findMany(findManyDto);
+  }
+
   update(updateDto: Prisma.TransactionUpdateArgs) {
     return this.prismaService.transaction.update(updateDto);
   }

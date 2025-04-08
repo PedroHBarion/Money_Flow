@@ -49,6 +49,21 @@ export class TransactionsController {
     });
   }
 
+  @Get('sumary/category')
+  findTransactionByCategory(
+    @ActiveUserId() userId: string,
+    @Query('month', ParseIntPipe) month: number,
+    @Query('year', ParseIntPipe) year: number,
+  ) {
+    return this.transactionsService.findTransactionExpenseValueByCategory(
+      userId,
+      {
+        month,
+        year,
+      },
+    );
+  }
+
   @Put(':transactionId')
   update(
     @ActiveUserId() userId: string,
