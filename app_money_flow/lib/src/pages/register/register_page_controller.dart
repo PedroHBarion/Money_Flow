@@ -82,7 +82,6 @@ class RegisterController {
 
       final response = authService.signup(registerData);
 
-      print(response);
     }
 
     return nameError == null &&

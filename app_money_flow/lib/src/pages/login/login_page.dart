@@ -2,27 +2,28 @@ import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:app_money_flow/src/widgets/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'login_page_controller.dart';
 
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<LoginController>(
+      create: (_) => LoginController(),
+      child: const _LoginForm(),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final LoginController _controller = LoginController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class _LoginForm extends StatelessWidget {
+  const _LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<LoginController>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
-          key: _controller.formKey,
+          key: controller.formKey,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -73,21 +74,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Não possui uma conta? "),
-                    GestureDetector(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(
-                            context,
-                            rootNavigator: true,
-                          ).pushNamed(AppRoutes.register);
-                        },
-                        child: const Text(
-                          "Crie uma aqui",
-                          style: TextStyle(
-                            color: Color(0xFF087F5B),
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.none,
-                          ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        ).pushNamed(AppRoutes.register);
+                      },
+                      child: const Text(
+                        "Crie uma aqui",
+                        style: TextStyle(
+                          color: Color(0xFF087F5B),
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     ),
@@ -96,15 +95,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
                 Input(
                   label: 'Email',
-                  controller: _controller.emailController,
-                  errorText: _controller.emailError,
+                  controller: controller.emailController,
+                  errorText: controller.emailError,
                   obscureText: false,
                 ),
                 const SizedBox(height: 15),
-                 Input(
+                Input(
                   label: 'Senha',
-                  controller: _controller.passwordController,
-                  errorText: _controller.passwordError,
+                  controller: controller.passwordController,
+                  errorText: controller.passwordError,
                   obscureText: true,
                 ),
                 const SizedBox(height: 20),
@@ -118,15 +117,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _controller.validateAndLogin(context);
-                      });
-                    },
-                    child: const Text(
-                      "Entrar",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
+                    onPressed: controller.isLoading
+                        ? null
+                        : () => controller.validateAndLogin(context),
+                    child: controller.isLoading
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
+                            "Entrar",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16),
+                          ),
                   ),
                 ),
               ],
