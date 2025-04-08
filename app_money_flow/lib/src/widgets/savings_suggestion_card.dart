@@ -1,7 +1,7 @@
 import 'package:app_money_flow/src/core/routes/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_money_flow/src/core/controller/expense_controller.dart';
+import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
 
 class SavingsSuggestionCard extends StatelessWidget {
   const SavingsSuggestionCard({super.key});

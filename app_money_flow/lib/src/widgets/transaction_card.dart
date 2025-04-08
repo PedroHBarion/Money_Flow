@@ -1,20 +1,21 @@
+import 'package:app_money_flow/src/widgets/icons/category_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TransactionCard extends StatelessWidget {
-  final String iconPath;
-  final int color;
+  final String? icon;
+  final String type;
   final String title;
   final String date;
-  final String amount;
+  final double amount;
 
   const TransactionCard({
     super.key,
-    required this.iconPath,
-    required this.color,
+    required this.type,
     required this.title,
     required this.date,
     required this.amount,
+    this.icon,
   });
 
   @override
@@ -31,16 +32,13 @@ class TransactionCard extends StatelessWidget {
         child: Row(
           children: [
             // Ícone com fundo circular
-            CircleAvatar(
-              backgroundColor: Color(color),
-              radius: 24, 
-              child: SvgPicture.asset(
-                iconPath,
-                width: 24,
-                height: 24,
-              ),
+            SvgPicture.asset(
+              getCategoryIconPath(type: "EXPENSE", subcategory: icon),
+              width: 44,
+              height: 44,
             ),
-            const SizedBox(width: 16), 
+
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,18 +57,18 @@ class TransactionCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xff868E96), 
+                      color: Color(0xff868E96),
                     ),
                   ),
                 ],
               ),
             ),
             Text(
-              amount,
-              style: const TextStyle(
+              (type == 'INCOME' ? '+R\$' : '-R\$') + amount.toStringAsFixed(2),
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(224, 49, 49, 1), // Cor vermelha do design
+                color: type == 'INCOME' ? Color(0xFF2F9E44) : Color(0xFFE03131),
               ),
             ),
           ],

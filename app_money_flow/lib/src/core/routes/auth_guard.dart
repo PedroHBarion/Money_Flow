@@ -1,7 +1,7 @@
+import 'package:app_money_flow/src/core/routes/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
-import '../../pages/home/home.dart';
 import '../../pages/login/login_page.dart';
 
 class AuthGuard extends StatelessWidget {
@@ -25,7 +25,7 @@ class AuthGuard extends StatelessWidget {
 
     // Se a rota é pública e o usuário já está logado → redireciona para home
     if (!isPrivate && signedIn) {
-      return const Home();
+      return const MainNavigation();
     }
 
     // Caso contrário, exibe a rota normalmente

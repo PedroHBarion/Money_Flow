@@ -1,4 +1,4 @@
-import 'package:app_money_flow/src/core/controller/expense_controller.dart';
+import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
 import 'package:app_money_flow/src/widgets/balance_card.dart';
 import 'package:app_money_flow/src/widgets/custom_month_navigation.dart';
 import 'package:app_money_flow/src/widgets/savings_suggestion_card.dart';
@@ -49,7 +49,6 @@ class ExpensesPage extends StatelessWidget {
                           title: "Gastos Previstos",
                           subTitle:
                               "R\$ ${controller.totalExpenses(controller.currentMonthIndex)}",
-
                           subTitlecolor: Color(0xFF087F5B),
                           titleColor: Color.fromARGB(255, 0, 0, 0),
                           background: Color(0xFFFFFFFF),
@@ -57,7 +56,6 @@ class ExpensesPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-
                     SizedBox(
                       height: 200,
                       child: PieChart(
@@ -67,30 +65,20 @@ class ExpensesPage extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 20),
-
                     if (controller.transactions.isNotEmpty)
                       TransactionCard(
-                        iconPath: 'assets/icons/shopping_cart.svg',
-                        color: 0xFFFFFFFF,
+                        icon: 'education',
+                        type: 'EXPENSE',
                         title: "Principal Gasto",
-                        date:
-                            controller
+                        date: controller
                                 .getHighestTransactionForMonth(
                                   controller.currentMonthIndex,
                                 )
                                 ?.category ??
                             "N/A",
-                        amount:
-                            controller.getHighestTransactionForMonth(
-                                      controller.currentMonthIndex,
-                                    ) !=
-                                    null
-                                ? "-R\$ ${controller.getHighestTransactionForMonth(controller.currentMonthIndex)!.value.toStringAsFixed(2)}"
-                                : "-R\$ 0,00",
+                        amount: 3500,
                       ),
-
                     SavingsSuggestionCard(),
                   ],
                 ),
@@ -99,9 +87,6 @@ class ExpensesPage extends StatelessWidget {
           },
         ),
       ),
-    ); 
+    );
   }
 }
-
-
-

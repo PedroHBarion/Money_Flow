@@ -20,8 +20,6 @@ class AuthProvider with ChangeNotifier {
       _signedIn = isValid;
       notifyListeners();
     }
-
-    print(_signedIn);
   }
 
   Future<void> signin(String accessToken) async {
