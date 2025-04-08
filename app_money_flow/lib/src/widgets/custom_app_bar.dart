@@ -1,3 +1,4 @@
+import 'package:app_money_flow/src/widgets/icons/logo.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,23 +17,10 @@ class CustomAppBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              SizedBox(
-                width: 24,
-                height: 24,
-                //child: SvgPicture.asset('assets/icons/icon_app_green.svg'),
-              ),
-              SizedBox(width: 8),
-              Text(
-                'MoneyFlow',
-                style: TextStyle(
-                  color: Color(0xFF087F5B),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ],
+          Logo(
+            color: Color(0xFF087F5B),
+            fontSize: 18,
+            iconSize: 24,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,

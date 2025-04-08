@@ -1,6 +1,6 @@
-import 'package:app_money_flow/src/widgets/account_balance_card.dart';
+import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts.dart';
 import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
-import 'package:app_money_flow/src/widgets/transactions_container.dart';
+import 'package:app_money_flow/src/pages/home/widgets/transactions/transactions.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
               children: [
                 AccountBalanceCard(),
                 SizedBox(height: 16),
-                TransactionsContainer(),
+                Transactions(),
                 SizedBox(height: 16),
               ],
             ),
