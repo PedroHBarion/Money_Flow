@@ -96,6 +96,7 @@ model Category {
   userId       String          @map("user_id") @db.Uuid
   name         String
   icon         String
+  color        String
   type         TransactionType
   transactions Transaction[]
 
