@@ -49,7 +49,7 @@ export class TransactionsController {
     });
   }
 
-  @Get('sumary/category')
+  @Get('summary/category')
   findTransactionByCategory(
     @ActiveUserId() userId: string,
     @Query('month', ParseIntPipe) month: number,

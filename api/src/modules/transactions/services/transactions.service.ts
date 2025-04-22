@@ -23,7 +23,15 @@ export class TransactionsService {
     await this.validateEntitiesOwnership({ userId, bankAccountId, categoryId });
 
     return this.transactionsRepo.create({
-      data: { userId, bankAccountId, categoryId, name, value, type, date },
+      data: {
+        userId,
+        bankAccountId,
+        categoryId,
+        name,
+        value,
+        type,
+        date: new Date(date),
+      },
     });
   }
 
@@ -79,10 +87,14 @@ export class TransactionsService {
           select: {
             id: true,
             name: true,
+            icon: true,
+            color: true,
           },
         },
       },
     });
+
+    console.log(transactions);
 
     const grouped = transactions.reduce(
       (acc, { category, value }) => {
@@ -93,14 +105,21 @@ export class TransactionsService {
             id: category.id,
             name: category.name,
             value: 0,
+            color: category.color,
+            icon: category.icon,
           };
         }
 
         acc[category.id].value += value;
         return acc;
       },
-      {} as Record<string, { id: string; name: string; value: number }>,
+      {} as Record<
+        string,
+        { id: string; name: string; value: number; icon: string; color: string }
+      >,
     );
+
+    console.log(grouped);
 
     return Object.values(grouped);
   }
@@ -122,7 +141,14 @@ export class TransactionsService {
 
     return this.transactionsRepo.update({
       where: { id: transactionId },
-      data: { bankAccountId, categoryId, date, name, type, value },
+      data: {
+        bankAccountId,
+        categoryId,
+        date: new Date(date),
+        name,
+        type,
+        value,
+      },
     });
   }
 

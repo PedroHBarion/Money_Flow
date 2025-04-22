@@ -19,9 +19,4 @@ export class UserAnswersController {
   findOne(@Param('id') id: string) {
     return this.userAnswersService.findOne(+id);
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserAnswerDto: UpdateUserAnswerDto) {
-  //   return this.userAnswersService.update(+id, updateUserAnswerDto);
-  // }
 }
