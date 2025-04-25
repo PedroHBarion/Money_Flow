@@ -6,8 +6,8 @@ import { PrismaService } from '../prisma.service';
 export class UserAnswerRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createDto: Prisma.UserAnswerCreateArgs) {
-    return this.prismaService.userAnswer.create(createDto);
+  createMany(createDto: Prisma.UserAnswerCreateManyArgs) {
+    return this.prismaService.userAnswer.createMany(createDto);
   }
 
   findFirst(findFirstDto: Prisma.UserAnswerFindFirstArgs) {
@@ -18,13 +18,5 @@ export class UserAnswerRepository {
     findManyDto: Prisma.SelectSubset<T, Prisma.UserAnswerFindManyArgs>,
   ) {
     return this.prismaService.userAnswer.findMany(findManyDto);
-  }
-
-  update(updateDto: Prisma.UserAnswerUpdateArgs) {
-    return this.prismaService.userAnswer.update(updateDto);
-  }
-
-  delete(deleteDto: Prisma.UserAnswerDeleteArgs) {
-    return this.prismaService.userAnswer.delete(deleteDto);
   }
 }

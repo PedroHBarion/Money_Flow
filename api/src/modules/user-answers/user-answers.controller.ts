@@ -1,22 +1,24 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
 import { UserAnswersService } from './user-answers.service';
-import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
 import { ActiveUserId } from 'src/shared/decorators/ActiveUserId';
+import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
 
 @Controller('user-answers')
 export class UserAnswersController {
   constructor(private readonly userAnswersService: UserAnswersService) {}
 
   @Post()
-  create(
+  createMany(
     @ActiveUserId() userId: string,
-    @Body() createUserAnswerDto: CreateUserAnswerDto,
+    @Body(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        forbidNonWhitelisted: true,
+      }),
+    )
+    body: CreateUserAnswerDto[],
   ) {
-    return this.userAnswersService.create(userId, createUserAnswerDto);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userAnswersService.findOne(+id);
+    return this.userAnswersService.createMany(userId, body);
   }
 }

@@ -6,18 +6,14 @@ import { UserAnswerRepository } from 'src/shared/database/repositories/userAnswe
 export class UserAnswersService {
   constructor(private readonly userAnswersRepo: UserAnswerRepository) {}
 
-  create(userId: string, createUserAnswerDto: CreateUserAnswerDto) {
-    const { answerId, questionId } = createUserAnswerDto;
-    return this.userAnswersRepo.create({
-      data: { userId, answerId, questionId },
+  createMany(userId: string, answers: CreateUserAnswerDto[]) {
+    return this.userAnswersRepo.createMany({
+      data: answers.map((a) => ({
+        questionId: a.questionId,
+        answerId: a.answerId,
+        userId,
+      })),
+      skipDuplicates: true,
     });
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} userAnswer`;
-  }
-
-  // update(id: number, updateUserAnswerDto: UpdateUserAnswerDto) {
-  //   return `This action updates a #${id} userAnswer`;
-  // }
 }
