@@ -1,4 +1,6 @@
-import 'package:app_money_flow/src/widgets/receita_card.dart';
+import 'package:app_money_flow/src/core/enums/transaction_type.dart';
+import 'package:app_money_flow/src/widgets/modals/AccountModal/account_modal.dart';
+import 'package:app_money_flow/src/widgets/modals/TransactionModal/transaction_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:app_money_flow/src/pages/home/home.dart';
 import 'package:app_money_flow/src/pages/expenses/expenses_page.dart';
@@ -29,11 +31,27 @@ class _MainNavigationState extends State<MainNavigation>
     super.dispose();
   }
 
-  void toggleReceitaCard() {
-    setState(() {
+
+   void handleOpenTransactionModal({ required TransactionType typeModal}){
+     setState(() {
       isExpanded = false;
-      showReceitaCard = !showReceitaCard;
     });
+
+    showDialog(
+      context: context,
+      builder: (_) =>  TransactionModal(type: typeModal,),
+    );
+  }
+
+  void handleOpenAccountModal(){
+     setState(() {
+      isExpanded = false;
+    });
+
+    showDialog(
+      context: context,
+      builder: (_) => const AccountModal(),
+    );
   }
 
   @override
@@ -51,14 +69,6 @@ class _MainNavigationState extends State<MainNavigation>
             ),
           ),
 
-          if (showReceitaCard) ...[
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
-                child: ReceitaCard(onClose: toggleReceitaCard, onDelete: () {},onSave: (){},),
-              ),
-            ),
-          ],
 
           if (!showReceitaCard)
             Align(
@@ -142,19 +152,19 @@ class _MainNavigationState extends State<MainNavigation>
         'label': 'Receitas',
         'color': Color(0xFFEBFBEE),
         'icon': 'assets/icons/income_icon.svg',
-        'onTap': toggleReceitaCard,
+        'onTap':  () => handleOpenTransactionModal(typeModal: TransactionType.income),
       },
       {
         'label': 'Despesas',
         'color': Color(0xFFFFF5F5),
         'icon': 'assets/icons/expense_icon.svg',
-        'onTap': toggleReceitaCard,
+        'onTap': () => handleOpenTransactionModal(typeModal: TransactionType.expense),
       },
       {
         'label': 'Transações',
         'color': Color(0xFFEDF2FF),
         'icon': 'assets/icons/bank_icon.svg',
-        'onTap': toggleReceitaCard,
+        'onTap': handleOpenAccountModal,
       },
     ];
 

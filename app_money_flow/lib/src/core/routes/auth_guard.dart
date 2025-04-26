@@ -1,8 +1,7 @@
-import 'package:app_money_flow/src/core/routes/main_navigation.dart';
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
-import '../../pages/login/login_page.dart';
 
 class AuthGuard extends StatelessWidget {
   final Widget child;
@@ -18,17 +17,23 @@ class AuthGuard extends StatelessWidget {
   Widget build(BuildContext context) {
     final signedIn = context.watch<AuthProvider>().signedIn;
 
-    // Se a rota é privada e o usuário não está logado → redireciona para login
     if (isPrivate && !signedIn) {
-      return const LoginScreen();
+      Future.microtask(() => Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRoutes.login,
+            (route) => false,
+          ));
+      return const SizedBox.shrink();
     }
 
-    // Se a rota é pública e o usuário já está logado → redireciona para home
-    if (!isPrivate && signedIn) {
-      return const MainNavigation();
-    }
-
-    // Caso contrário, exibe a rota normalmente
+    // if (!isPrivate && signedIn) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     Navigator.of(context).pushNamedAndRemoveUntil(
+    //       AppRoutes.main,
+    //       (route) => false,
+    //     );
+    //   });
+    //   return const SizedBox.shrink();
+    // }
     return child;
   }
 }
