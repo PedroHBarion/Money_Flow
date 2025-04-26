@@ -1,9 +1,13 @@
 import 'package:app_money_flow/src/core/models/register_model.dart';
+import 'package:app_money_flow/src/core/provider/auth_provider.dart';
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:app_money_flow/src/core/services/auth_service.dart';
+import 'package:app_money_flow/src/core/utils/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
-class RegisterController {
+class RegisterController extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -14,79 +18,62 @@ class RegisterController {
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
+  bool isLoading = false;
 
-  String? nameError;
-  String? emailError;
-  String? passwordError;
-  String? confirmPasswordError;
+  void togglePasswordVisibility() {
+    obscurePassword = !obscurePassword;
+    notifyListeners();
+  }
 
+  void toggleConfirmPasswordVisibility() {
+    obscureConfirmPassword = !obscureConfirmPassword;
+    notifyListeners();
+  }
+
+  Future<void> validateAndRegister(BuildContext context) async {
+    final isValid = formKey.currentState?.validate() ?? false;
+
+    if (!isValid) return;
+
+    final registerData = RegisterModel(
+      name: nameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    await handleRegister(context, registerData);
+  }
+
+  Future<void> handleRegister(BuildContext context, RegisterModel data) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await authService.signup(data);
+
+      await context.read<AuthProvider>().signin(response);
+
+      Toast.success('Conta criada com sucesso!');
+
+      Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+        AppRoutes.profile,
+        (route) => false,
+      );
+    } catch (e) {
+      Toast.error('Erro ao criar conta. Verifique os dados!');
+      debugPrint("Erro ao registrar: $e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  @override
   void dispose() {
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
-  }
-
-  bool _isValidName(String name) {
-    return RegExp(r"^[a-zA-Z\s]").hasMatch(name);
-  }
-
-  bool _isValidEmail(String email) {
-    final emailRegex = RegExp(
-      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
-    );
-    return emailRegex.hasMatch(email);
-  }
-
-  bool _isValidPassword(String password) {
-    final passwordRegex = RegExp(r"^\d{8}$");
-    return passwordRegex.hasMatch(password);
-  }
-
-  bool validateFields() {
-    nameError = null;
-    emailError = null;
-    passwordError = null;
-    confirmPasswordError = null;
-
-    if (nameController.text.isEmpty) {
-      nameError = "O nome é obrigatório";
-    } else if (!_isValidName(nameController.text)) {
-      nameError = "Nome inválido";
-    }
-
-    if (emailController.text.isEmpty) {
-      emailError = "O e-mail é obrigatório";
-    } else if (!_isValidEmail(emailController.text)) {
-      emailError = "E-mail inválido";
-    }
-
-    if (passwordController.text.isEmpty) {
-      passwordError = "A senha é obrigatória";
-    } else if (!_isValidPassword(passwordController.text)) {
-      passwordError = "Senha inválida";
-    }
-
-    if (confirmPasswordController.text.isEmpty) {
-      confirmPasswordError = "A confirmação de senha é obrigatória";
-    } else if (confirmPasswordController.text != passwordController.text) {
-      confirmPasswordError = "As senhas precisam ser iguais";
-    }
-
-    if (emailError == null && passwordError == null) {
-      final registerData = RegisterModel(
-        name: nameController.text,
-        email: emailController.text,
-        password: passwordController.text,
-      );
-
-      final response = authService.signup(registerData);
-
-    }
-
-    return nameError == null &&
-        emailError == null &&
-        passwordError == null &&
-        confirmPasswordError == null;
+    super.dispose();
   }
 }
