@@ -4,7 +4,8 @@ class CustomMonthNavigation extends StatelessWidget {
   final int currentMonthIndex;
   final Function(int) onMonthChanged; // Função de callback para notificar o pai
 
-  const CustomMonthNavigation({super.key, 
+  const CustomMonthNavigation({
+    super.key,
     required this.currentMonthIndex,
     required this.onMonthChanged,
   });
@@ -14,17 +15,17 @@ class CustomMonthNavigation extends StatelessWidget {
     // Lista de meses diretamente no widget
     List<String> months = [
       'Jan',
-      'Feb',
+      'Fev',
       'Mar',
-      'Apr',
-      'May',
+      'Abr',
+      'Mai',
       'Jun',
       'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
+      'Ago',
+      'Set',
+      'Out',
       'Nov',
-      'Dec',
+      'Dez',
     ];
 
     // Meses para exibir: anterior, atual, próximo
@@ -38,16 +39,14 @@ class CustomMonthNavigation extends StatelessWidget {
       width: 311, // Largura definida conforme seu CSS
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment:
-            CrossAxisAlignment
-                .center, // Equivalente ao align-items: center no CSS
+        crossAxisAlignment: CrossAxisAlignment
+            .center, // Equivalente ao align-items: center no CSS
         children: [
           IconButton(
             icon: Icon(Icons.chevron_left),
-            onPressed:
-                () => onMonthChanged(
-                  (currentMonthIndex - 1 + 12) % 12,
-                ), // Mês anterior
+            onPressed: () => onMonthChanged(
+              (currentMonthIndex - 1 + 12) % 12,
+            ), // Mês anterior
           ),
           SizedBox(width: 16), // Espaço entre os ícones e os meses
 
@@ -58,8 +57,8 @@ class CustomMonthNavigation extends StatelessWidget {
               children: [
                 // Mês anterior (clicável)
                 GestureDetector(
-                  onTap:
-                      () => onMonthChanged((currentMonthIndex - 1 + 12) % 12),
+                  onTap: () =>
+                      onMonthChanged((currentMonthIndex - 1 + 12) % 12),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(

@@ -1,13 +1,13 @@
 String getCategoryIconPath({
-  required String type,       
-  String? subcategory,        
+  required String type,
+  String? subcategory,
 }) {
   const incomePath = 'assets/icons/categories/income';
   const expensePath = 'assets/icons/categories/expense';
 
-  print(subcategory);
-
   switch (type) {
+    
+
     case 'INCOME':
       return '$incomePath/income.svg';
 
@@ -33,6 +33,3 @@ String getCategoryIconPath({
       throw Exception('Tipo de categoria inválido: $type');
   }
 }
-
-
-

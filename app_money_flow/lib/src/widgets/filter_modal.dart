@@ -1,10 +1,39 @@
+import 'package:app_money_flow/src/core/config/locator.dart';
+import 'package:app_money_flow/src/core/models/bank_account_model.dart';
+import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts_controller.dart';
 import 'package:flutter/material.dart';
 
-class FilterModal extends StatelessWidget {
-  final Function(String?) onAccountSelected;
-  final Function(int?) onYearSelected;
+class FilterModal extends StatefulWidget {
+  final Function(String?) onTempAccountChanged;
+  final Function(int?) onTempYearChanged;
+  final VoidCallback onApplyFilters;
+  final VoidCallback onClearFilters;
 
-  const FilterModal({super.key, required this.onAccountSelected, required this.onYearSelected});
+  const FilterModal({
+    super.key,
+    required this.onTempAccountChanged,
+    required this.onTempYearChanged,
+    required this.onApplyFilters,
+    required this.onClearFilters,
+  });
+
+  @override
+  State<FilterModal> createState() => _FilterModalState();
+}
+
+class _FilterModalState extends State<FilterModal> {
+  final accountsController = getIt<AccountsController>();
+
+  late List<BankAccountModel> accounts;
+  String? selectedAccountId;
+  int? selectedYear;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedYear = DateTime.now().year;
+    accounts = accountsController.accounts;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,51 +43,78 @@ class FilterModal extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 40,
-              children: [
-                Text(
-                  'Filtros',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                
-                DropdownButtonFormField<String>(
-                  dropdownColor: Color(0xffFFFFFF),
-                  decoration: InputDecoration(labelText: 'Conta'),
-                  items: ['XP Investimentos', 'Nubank', 'Carteira']
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: onAccountSelected,
-                ),
-               
-                DropdownButtonFormField<int>(
-                  dropdownColor: Color(0xffFFFFFF),
-                  decoration: InputDecoration(labelText: 'Ano'),
-                  items: [2022, 2023, 2024, 2025]
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e.toString())))
-                      .toList(),
-                  onChanged: onYearSelected,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:Color(0xFF087F5B),
-                    foregroundColor: Color(0xffFFFFFF),
-                    minimumSize: Size(double.infinity, 60),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Aplicar Filtros',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700
-                  ),),
-                ),
-              ],
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Filtros', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+
+            // Dropdown de contas
+            DropdownButtonFormField<String>(
+              value: selectedAccountId,
+              decoration: InputDecoration(labelText: 'Conta'),
+              items: accounts
+                  .map((account) => DropdownMenuItem(
+                        value: account.id,
+                        child: Text(account.name),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() => selectedAccountId = value);
+                widget.onTempAccountChanged(value);
+              },
             ),
-          ),
+
+            const SizedBox(height: 16),
+
+            // Dropdown de ano
+            DropdownButtonFormField<int>(
+              value: selectedYear,
+              decoration: InputDecoration(labelText: 'Ano'),
+              items: [2022, 2023, 2024, 2025]
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e.toString())))
+                  .toList(),
+              onChanged: (value) {
+                setState(() => selectedYear = value);
+                widget.onTempYearChanged(value);
+              },
+            ),
+
+            const SizedBox(height: 24),
+
+            // Botão aplicar filtros
+            ElevatedButton(
+              onPressed: () {
+                widget.onApplyFilters();
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF087F5B),
+                foregroundColor: Colors.white,
+                minimumSize: Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              ),
+              child: Text('Aplicar Filtros', style: TextStyle(fontWeight: FontWeight.w700)),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Botão limpar filtros
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  selectedAccountId = null;
+                  selectedYear = DateTime.now().year;
+                });
+                widget.onClearFilters();
+                Navigator.pop(context);
+              },
+              child: Text('Limpar Filtros', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
