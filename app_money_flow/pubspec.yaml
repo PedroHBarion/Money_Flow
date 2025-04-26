@@ -34,19 +34,22 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.9
   fl_chart: ^0.70.2
+  intl: ^0.19.0
   http: ^1.3.0
+  get: ^4.6.5
 
   flutter:
     sdk: flutter
-  
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  intl: ^0.20.2
-
+  validatorless: ^1.2.4
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -70,10 +73,10 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/data/
     - assets/icons/bankAccounts/
     - assets/icons/categories/expense/
     - assets/icons/categories/income/
-    - assets/data/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
