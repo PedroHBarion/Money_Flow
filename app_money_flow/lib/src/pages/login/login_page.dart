@@ -1,8 +1,11 @@
 import 'package:app_money_flow/src/core/routes/app_routes.dart';
-import 'package:app_money_flow/src/widgets/input.dart';
+import 'package:app_money_flow/src/widgets/button.dart';
+import 'package:app_money_flow/src/widgets/icons/logo.dart';
+import 'package:app_money_flow/src/widgets/inputs/input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:provider/provider.dart';
+import 'package:validatorless/validatorless.dart';
 import 'login_page_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -18,43 +21,28 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _LoginForm extends StatelessWidget {
-  const _LoginForm({super.key});
+  const _LoginForm();
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<LoginController>();
 
+    void handleSignin() {
+      if (controller.isLoading) return;
+
+      controller.validateAndLogin(context);
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        toolbarHeight: 80,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/logo_money_flow.svg',
-                height: 25,
-                colorFilter: const ColorFilter.mode(
-                  Colors.grey,
-                  BlendMode.srcIn,
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'MoneyFlow',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: Padding(
+            padding: EdgeInsets.only(top: 50),
+            child: Logo(
+              color: Colors.grey,
+              fontSize: 20,
+              iconSize: 25,
+            )),
       ),
       backgroundColor: const Color(0xFFFFFFFF),
       body: Padding(
@@ -94,43 +82,32 @@ class _LoginForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Input(
-                  label: 'Email',
+                  label: 'E-mail',
                   controller: controller.emailController,
-                  errorText: controller.emailError,
-                  obscureText: false,
+                  validator: Validatorless.multiple([
+                    Validatorless.required('O e-mail é obrigatório'),
+                    Validatorless.email('E-mail inválido'),
+                  ]),
                 ),
                 const SizedBox(height: 15),
                 Input(
                   label: 'Senha',
                   controller: controller.passwordController,
-                  errorText: controller.passwordError,
                   obscureText: true,
+                  validator: Validatorless.multiple([
+                    Validatorless.required('A senha é obrigatória'),
+                    Validatorless.regex(RegExp(r'^\d{8}$'),
+                        'A senha deve conter exatamente 8 números'),
+                  ]),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF087F5B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: controller.isLoading
-                        ? null
-                        : () => controller.validateAndLogin(context),
-                    child: controller.isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text(
-                            "Entrar",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                  ),
-                ),
+                Button(
+                  text: 'Entrar',
+                  isLoading: controller.isLoading,
+                  onPressed: () => handleSignin(),
+                  disabled: controller.isLoading,
+                  variant: ButtonVariant.normal,
+                )
               ],
             ),
           ),

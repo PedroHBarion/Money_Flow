@@ -1,7 +1,8 @@
 import 'package:app_money_flow/src/core/models/login_model.dart';
 import 'package:app_money_flow/src/core/provider/auth_provider.dart';
+import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:app_money_flow/src/core/services/auth_service.dart';
-import 'package:app_money_flow/src/widgets/toast/toast.dart';
+import 'package:app_money_flow/src/core/utils/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,6 @@ class LoginController extends ChangeNotifier {
   final AuthService authService = GetIt.I<AuthService>();
 
   bool obscurePassword = true;
-  String? emailError;
-  String? passwordError;
   bool isLoading = false;
 
   void togglePasswordVisibility() {
@@ -22,45 +21,17 @@ class LoginController extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isValidEmail(String email) {
-    final emailRegex = RegExp(
-      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-    );
-    return emailRegex.hasMatch(email);
-  }
-
-  bool isValidPassword(String password) {
-    final passwordRegex = RegExp(r"^\d{8}$");
-    return passwordRegex.hasMatch(password);
-  }
-
   Future<void> validateAndLogin(BuildContext context) async {
-    emailError = null;
-    passwordError = null;
-    notifyListeners();
+    final isValid = formKey.currentState?.validate() ?? false;
 
-    if (emailController.text.isEmpty) {
-      emailError = "O e-mail é obrigatório";
-    } else if (!isValidEmail(emailController.text)) {
-      emailError = "E-mail inválido";
-    }
+    if (!isValid) return;
 
-    if (passwordController.text.isEmpty) {
-      passwordError = "A senha é obrigatória";
-    } else if (!isValidPassword(passwordController.text)) {
-      passwordError = "Senha inválida";
-    }
+    final loginData = LoginModel(
+      email: emailController.text,
+      password: passwordController.text,
+    );
 
-    notifyListeners();
-
-    if (emailError == null && passwordError == null) {
-      final loginData = LoginModel(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-
-      await handleLogin(context, loginData);
-    }
+    await handleLogin(context, loginData);
   }
 
   Future<void> handleLogin(BuildContext context, LoginModel loginData) async {
@@ -72,10 +43,14 @@ class LoginController extends ChangeNotifier {
 
       await context.read<AuthProvider>().signin(response);
 
-      showToast(context, "Login realizado com sucesso!", ToastType.success);
-      Navigator.of(context).pushReplacementNamed('/home');
+      Toast.success('Login realizado com sucesso!');
+
+      Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+        AppRoutes.main,
+        (route) => false,
+      );
     } catch (e) {
-      showToast(context, "Login inválido. Verifique suas credenciais.", ToastType.error);
+      Toast.error('Login inválido. Verifique suas credenciais!');
       debugPrint("Erro ao realizar login: $e");
     } finally {
       isLoading = false;
