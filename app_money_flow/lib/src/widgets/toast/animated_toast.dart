@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'toast.dart';
+
+enum ToastType { success, error }
 
 class AnimatedToast extends StatefulWidget {
   final String message;
@@ -14,10 +15,10 @@ class AnimatedToast extends StatefulWidget {
   });
 
   @override
-  State<AnimatedToast> createState() => AnimatedToastState();
+  State<AnimatedToast> createState() => _AnimatedToastState();
 }
 
-class AnimatedToastState extends State<AnimatedToast>
+class _AnimatedToastState extends State<AnimatedToast>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
@@ -53,7 +54,7 @@ class AnimatedToastState extends State<AnimatedToast>
     Future.delayed(Duration(seconds: 2), () {
       _controller.reverse().then((_) {
         if (mounted) {
-          widget.onDismissed(); // ✅ remove o OverlayEntry com segurança
+          widget.onDismissed(); // Remove o toast do overlay
         }
       });
     });
