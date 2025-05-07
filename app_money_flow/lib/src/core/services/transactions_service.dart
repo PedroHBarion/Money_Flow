@@ -1,38 +1,35 @@
 import 'dart:convert';
+import 'package:app_money_flow/src/core/models/transactions/transaction_filters_model.dart';
 import './http/http_client.dart';
-import '../models/transactions/create_transaction_model.dart';
-import '../models/transactions/update_transaction_model.dart';
 import '../models/transactions/transaction_by_category_model.dart';
-import '../models/transactions/transaction_filters_model.dart';
-import '../models/transactions/transaction.dart';
+import '../models/transactions/transaction_model.dart';
 
 class TransactionService {
   final HttpClient httpClient;
 
   TransactionService(this.httpClient);
 
-  Future<dynamic> create(CreateTransactionModel model) async {
-    final response =
-        await httpClient.post('/transactions', body: model.toJson());
+  Future<dynamic> create(TransactionModel model) async {
+    final response = await httpClient.post('/transactions',
+        body: jsonEncode(model.toJson()));
     return jsonDecode(response);
   }
 
-  Future<List<TransactionModel>> getAll(
-      {required int month, required int year}) async {
-    final response = await httpClient
-        .get('/transactions', queryParams: {'month': month, 'year': year});
+  Future<List<TransactionModel>> getAll(TransactionFiltersModel filters) async {
+    final response = await httpClient.get('/transactions',
+        queryParams: filters.toQueryParams());
     final List data = jsonDecode(response);
     return data.map((item) => TransactionModel.fromJson(item)).toList();
   }
 
   Future<dynamic> remove(String transactionId) async {
-    final response = await httpClient.delete('/transaction/$transactionId');
-    return jsonDecode(response);
+    await httpClient.delete('/transactions/$transactionId');
+    return;
   }
 
-  Future<dynamic> update(UpdateTransactionModel model) async {
-    final response =
-        await httpClient.put('/transactions/${model.id}', body: model.toJson());
+  Future<dynamic> update(TransactionModel model) async {
+    final response = await httpClient.put('/transactions/${model.id}',
+        body: jsonEncode(model.toJson()));
     return jsonDecode(response);
   }
 
@@ -41,7 +38,7 @@ class TransactionService {
     required int year,
   }) async {
     final response = await httpClient.get(
-      '/transactions/summary/by-category',
+      '/transactions/summary/category',
       queryParams: {
         'type': 'EXPENSE',
         'month': month,
@@ -50,6 +47,7 @@ class TransactionService {
     );
 
     final List<dynamic> decoded = jsonDecode(response);
+
     return decoded
         .map((item) => TransactionByCategoryModel.fromJson(item))
         .toList();

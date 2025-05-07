@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Classe responsável por gerenciar as mensagens associadas a diferentes categorias de despesas.
@@ -16,7 +17,7 @@ class MessageService {
   Future<void> _loadMessages() async {
     try {
       // Lê o conteúdo do arquivo JSON
-      final String response = await rootBundle.loadString('assets/data/messages.json');
+      final String response = await rootBundle.loadString('data/messages.json');
 
       // Decodifica o JSON para um mapa dinâmico
       Map<String, dynamic> data = json.decode(response);
@@ -24,7 +25,7 @@ class MessageService {
       // Converte os valores do mapa para strings e armazena no atributo _messages
       _messages = data.map((key, value) => MapEntry(key, value.toString()));
     } catch (e) {
-      print("Erro ao carregar mensagens: $e");
+      debugPrint("Erro ao carregar mensagens: $e");
     }
   }
 
@@ -36,8 +37,8 @@ class MessageService {
     if (_messages.isEmpty) {
       await _loadMessages();
     }
-
     // Retorna a mensagem da categoria ou uma mensagem padrão se não existir
-    return _messages[category] ?? "Nenhuma mensagem disponível para essa categoria.";
+    return _messages[category] ??
+        "Nenhuma mensagem disponível para essa categoria.";
   }
 }
