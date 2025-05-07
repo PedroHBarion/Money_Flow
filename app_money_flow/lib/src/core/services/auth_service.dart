@@ -1,7 +1,23 @@
-import 'dart:convert'; // Import necessário para usar jsonDecode
+import 'dart:convert'; 
 import '../models/login_model.dart';
 import '../models/register_model.dart';
 import '../services/http/http_client.dart';
+
+class UserModel {
+
+  final String name;
+  final String email;
+
+  UserModel({ required this.name, required this.email});
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      name: json['name'],
+      email: json['email'],
+    );
+  }
+}
+
 
 class AuthService {
   final HttpClient httpClient;
@@ -22,13 +38,13 @@ class AuthService {
     return responseJson['accessToken'];
   }
 
-  Future<bool> validateToken(String token) async {
-    try {
-      final responseBody = await httpClient.get('/users/me');
-      final responseJson = jsonDecode(responseBody);
-      return responseJson != null;
-    } catch (e) {
-      return false;
-    }
+ Future<UserModel?> validateToken(String token) async {
+  try {
+    final responseBody = await httpClient.get('/users/me');
+    final responseJson = jsonDecode(responseBody);
+    return UserModel.fromJson(responseJson);
+  } catch (e) {
+    return null;
   }
+}
 }
