@@ -90,7 +90,7 @@ class _ProfileFlowPageState extends State<ProfileFlowPage> {
               onAccept: () {
                 // Aqui você redireciona, salva no backend, etc.
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  AppRoutes.main,
+                  AppRoutes.splash,
                   (route) => false,
                 );
               },
