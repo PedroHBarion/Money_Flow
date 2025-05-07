@@ -46,7 +46,7 @@ class LoginController extends ChangeNotifier {
       Toast.success('Login realizado com sucesso!');
 
       Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-        AppRoutes.main,
+        AppRoutes.splash,
         (route) => false,
       );
     } catch (e) {
