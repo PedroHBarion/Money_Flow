@@ -1,12 +1,21 @@
-import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
-import 'package:app_money_flow/src/widgets/balance_card.dart';
-import 'package:app_money_flow/src/widgets/custom_month_navigation.dart';
-import 'package:app_money_flow/src/widgets/savings_suggestion_card.dart';
-import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
-import 'package:app_money_flow/src/widgets/transaction_card.dart';
+import 'package:app_money_flow/src/core/services/message_service.dart';
+import 'package:app_money_flow/src/core/utils/format_currency.dart';
+import 'package:app_money_flow/src/pages/expenses/widgets/empty_state_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:get_it/get_it.dart';
+import 'package:fl_chart/fl_chart.dart';
+
+import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
+import 'package:app_money_flow/src/core/services/transactions_service.dart';
+import 'package:app_money_flow/src/core/services/bank_accounts_service.dart';
+import 'package:app_money_flow/src/core/enums/transaction_type.dart';
+
+import 'package:app_money_flow/src/widgets/app_bar.dart';
+import 'package:app_money_flow/src/widgets/balance_card.dart';
+import 'package:app_money_flow/src/widgets/transaction_card.dart';
+import 'package:app_money_flow/src/pages/expenses/widgets/savings_suggestion_card.dart';
+import 'package:app_money_flow/src/widgets/custom_month_navigation.dart';
 
 class ExpensesPage extends StatelessWidget {
   const ExpensesPage({super.key});
@@ -14,15 +23,26 @@ class ExpensesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ExpensesController(),
+      create: (_) => ExpensesController(
+          GetIt.instance<TransactionService>(),
+          GetIt.instance<BankAccountsService>(),
+          GetIt.instance<MessageService>())
+        ..loadTransactions()
+        ..loadTransactionByCategory(),
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(80),
           child: CustomAppBar(),
         ),
         backgroundColor: const Color(0xFFFFFFFF),
         body: Consumer<ExpensesController>(
           builder: (context, controller, child) {
+            if (controller.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Center(
@@ -30,56 +50,72 @@ class ExpensesPage extends StatelessWidget {
                   children: [
                     CustomMonthNavigation(
                       currentMonthIndex: controller.currentMonthIndex,
-                      onMonthChanged: (newIndex) {
-                        controller.updateMonth(newIndex);
-                      },
+                      onMonthChanged: controller.changeMonth,
                     ),
                     const SizedBox(height: 20),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BalanceCard(
                           title: "Saldo atual total",
-                          subTitle: "R\$: 59,45",
-                          subTitlecolor: Color(0xFFFFFFFF),
-                          titleColor: Color(0xFFFFFFFF),
-                          background: Color(0xFF087F5B),
+                          subTitle:  'R\$ ${formatCurrency(controller.getTotalBalance())}',
+                          subTitlecolor: const Color(0xFFFFFFFF),
+                          titleColor: const Color(0xFFFFFFFF),
+                          background: const Color(0xFF087F5B),
                         ),
                         BalanceCard(
                           title: "Gastos Previstos",
-                          subTitle:
-                              "R\$ ${controller.totalExpenses(controller.currentMonthIndex)}",
-                          subTitlecolor: Color(0xFF087F5B),
-                          titleColor: Color.fromARGB(255, 0, 0, 0),
-                          background: Color(0xFFFFFFFF),
+                          subTitle: "R\$ ${controller.totalExpenses()}",
+                          subTitlecolor: const Color(0xFF087F5B),
+                          titleColor: Colors.black,
+                          background: Colors.white,
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
+
+                    // Pie Chart ou estado vazio
                     SizedBox(
-                      height: 200,
-                      child: PieChart(
-                        PieChartData(
-                          sections: controller.chartData,
-                          centerSpaceRadius: 50,
-                        ),
-                      ),
+                      height: 250,
+                      child: controller.chartData.isEmpty
+                          ? const EmptyStateWidget(
+                              icon: Icons.pie_chart,
+                              message: 'Nenhum gasto por categoria neste mês.',
+                            )
+                          : PieChart(
+                              PieChartData(
+                                sections: controller.chartData,
+                                centerSpaceRadius: 50,
+                              ),
+                            ),
                     ),
                     const SizedBox(height: 20),
-                    if (controller.transactions.isNotEmpty)
-                      TransactionCard(
-                        icon: 'education',
-                        type: 'EXPENSE',
-                        title: "Principal Gasto",
-                        date: controller
-                                .getHighestTransactionForMonth(
-                                  controller.currentMonthIndex,
-                                )
-                                ?.category ??
-                            "N/A",
-                        amount: 3500,
+
+                    // Maior gasto do mês ou estado vazio
+                    if (controller.transactions.isNotEmpty) ...[
+                      (() {
+                        final highestTransaction =
+                            controller.getHighestTransactionForMonth();
+
+                        return TransactionCard(
+                          icon: 'home',
+                          type: TransactionType.expense,
+                          title: "Principal Gasto",
+                          date: highestTransaction?.category?.name ?? "N/A",
+                          amount: highestTransaction?.value ?? 0.0,
+                        );
+                      })(),
+                    ] else ...[
+                      const EmptyStateWidget(
+                        icon: Icons.trending_down,
+                        message: 'Nenhum gasto registrado neste mês.',
                       ),
-                    SavingsSuggestionCard(),
+                    ],
+
+                    const SizedBox(height: 20),
+                    if (controller.categoryMessage != null)
+                      SavingsSuggestionCard(date: controller.categoryMessage!),
                   ],
                 ),
               ),
