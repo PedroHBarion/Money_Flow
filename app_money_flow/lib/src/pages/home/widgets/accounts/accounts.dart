@@ -1,4 +1,7 @@
+import 'package:app_money_flow/src/core/models/bank_account_model.dart';
+import 'package:app_money_flow/src/core/utils/format_currency.dart';
 import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts_controller.dart';
+import 'package:app_money_flow/src/widgets/modals/AccountModal/account_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../widgets/account_card.dart';
@@ -20,6 +23,20 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
       final controller = context.read<AccountsController>();
       controller.loadAccounts();
     });
+  }
+
+  void handleOpenCreateAccountModal() {
+    showDialog(
+      context: context,
+      builder: (_) => const AccountModal(),
+    );
+  }
+
+  void handleOpenEditAccountModal({BankAccountModel? account}) {
+    showDialog(
+      context: context,
+      builder: (_) => AccountModal(account: account),
+    );
   }
 
   @override
@@ -48,11 +65,13 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
               controller.isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
                   : Text(
-                      'R\$ ${controller.totalBalance.toStringAsFixed(2)}',
+                      'R\$ ${formatCurrency(controller.totalBalance)}',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: controller.isHidden ? Colors.transparent : Colors.white,
+                        color: controller.isHidden
+                            ? Colors.transparent
+                            : Colors.white,
                         shadows: controller.isHidden
                             ? [
                                 const Shadow(
@@ -85,7 +104,8 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
           ),
           const SizedBox(height: 16),
           controller.isLoading
-              ? const Center(child: CircularProgressIndicator(color: Colors.white))
+              ? const Center(
+                  child: CircularProgressIndicator(color: Colors.white))
               : controller.accounts.isNotEmpty
                   ? SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -95,16 +115,19 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
                           ...controller.accounts.map((acc) => AccountCard(
                                 type: acc.type,
                                 accountName: acc.name,
-                                balance: 'R\$ ${acc.currentBalance.toStringAsFixed(2)}',
+                                balance:
+                                    'R\$ ${formatCurrency(acc.currentBalance!)}',
                                 color: acc.color,
-                                isHidden: controller.isHidden
+                                isHidden: controller.isHidden,
+                                onTap: () =>
+                                    handleOpenEditAccountModal(account: acc),
                               )),
                         ],
                       ),
                     )
                   : ElevatedButton(
                       onPressed: () {
-                        print("Cadastrar nova conta!");
+                        handleOpenCreateAccountModal();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF087F5B),
@@ -124,13 +147,15 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
                               border: Border.all(color: Colors.white, width: 2),
                             ),
                             padding: const EdgeInsets.all(5),
-                            child: const Icon(Icons.add, size: 24, color: Color(0xffffffff)),
+                            child: const Icon(Icons.add,
+                                size: 24, color: Color(0xffffffff)),
                           ),
                           const SizedBox(height: 8),
                           const Text(
                             "Cadastre uma\nnova conta",
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),

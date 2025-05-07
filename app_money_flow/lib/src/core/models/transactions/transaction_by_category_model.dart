@@ -1,22 +1,25 @@
 class TransactionByCategoryModel {
-  final String categoryId;
-  final String categoryName;
-  final String categoryColor;
+  final String id;
+  final String name;
+  final String color;
+  final String icon;
   final double total;
 
   TransactionByCategoryModel({
-    required this.categoryId,
-    required this.categoryName,
-    required this.categoryColor,
+    required this.id,
+    required this.name,
+    required this.color,
+    required this.icon,
     required this.total,
   });
 
   factory TransactionByCategoryModel.fromJson(Map<String, dynamic> json) {
     return TransactionByCategoryModel(
-      categoryId: json['categoryId'],
-      categoryName: json['categoryName'],
-      categoryColor: json['categoryColor'],
-      total: (json['total'] as num).toDouble(),
+      id: json['id'],
+      name: json['name'],
+      color: json['color'],
+      icon: json['icon'],
+      total: (json['value'] as num).toDouble(),
     );
   }
 }

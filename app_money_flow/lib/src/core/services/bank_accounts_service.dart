@@ -1,7 +1,5 @@
 import 'dart:convert';
-import '../../core/models/bank_accounts/create_bank_accounts_model.dart';
-import '../../core/models/bank_accounts/update_bank_accounts_model.dart';
-import '../../core/models/bank_accounts/bank_account_model.dart';
+import '../models/bank_account_model.dart';
 import './http/http_client.dart';
 
 class BankAccountsService {
@@ -15,14 +13,16 @@ class BankAccountsService {
     return data.map((item) => BankAccountModel.fromJson(item)).toList();
   }
 
-  Future<dynamic> create(CreateBankAccountsModel model) async {
-    final response = await http.post('/bank-accounts', body: model.toJson());
-     return jsonDecode(response);
+  Future<dynamic> create(BankAccountModel model) async {
+    final response = await http.post('/bank-accounts',
+        body: jsonEncode(model.createAccountToJson()));
+    return jsonDecode(response);
   }
 
-  Future<dynamic> update(UpdateBankAccountsModel model) async {
-    final response = await http.put('/bank-accounts/${model.id}', body: model.toJson());
-     return jsonDecode(response);
+  Future<dynamic> update(BankAccountModel model) async {
+    final response = await http.put('/bank-accounts/${model.id}',
+        body: jsonEncode(model.updateAccountToJson()));
+    return jsonDecode(response);
   }
 
   Future<void> remove(String bankAccountId) async {

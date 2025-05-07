@@ -1,5 +1,5 @@
 import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts.dart';
-import 'package:app_money_flow/src/widgets/custom_app_bar.dart';
+import 'package:app_money_flow/src/widgets/app_bar.dart';
 import 'package:app_money_flow/src/pages/home/widgets/transactions/transactions.dart';
 import 'package:flutter/material.dart';
 

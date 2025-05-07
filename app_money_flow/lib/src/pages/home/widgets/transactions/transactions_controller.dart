@@ -1,46 +1,71 @@
+import 'package:app_money_flow/src/core/enums/transaction_type.dart';
+import 'package:app_money_flow/src/core/models/transactions/transaction_filters_model.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/models/transactions/transaction.dart';
+import '../../../../core/models/transactions/transaction_model.dart';
 import '../../../../core/services/transactions_service.dart';
-// import '../../../../core/models/transactions/transaction_filters_model.dart';
+
 
 class TransactionsController extends ChangeNotifier {
   final TransactionService service;
 
   List<TransactionModel> transactions = [];
   bool isLoading = false;
-  String? selectedAccount;
-  int? selectedYear;
+
   int currentMonthIndex = DateTime.now().month - 1;
+  // filtros
+  String? selectedBankAccountId;
+  int? selectedYear = 2025;
+  TransactionType? selectedType;
+
+  // Filtros temporários
+  String? tempAccount;
+  int? tempYear;
 
   TransactionsController({required this.service});
 
-  Future<void> fetchTransactions() async {
+
+ Future<void> fetchTransactions() async {
     isLoading = true;
     notifyListeners();
 
     try {
-      transactions = await service.getAll(month: currentMonthIndex, year: 2025);
-
-      // Debug aqui 👇
-      for (var tx in transactions) {
-        print(
-            'Tipo: ${tx.category?.icon}, Subcategoria: ${tx.category?.name}, Ícone: ${tx.category?.id}');
-      }
+      final filters = TransactionFiltersModel(month: currentMonthIndex, year: selectedYear!, type: selectedType?.value, bankAccountId: selectedBankAccountId);
+      transactions = await service.getAll(filters);
     } catch (e) {
-      print('Erro ao buscar transações: $e'); // sem o \$ no print
+      debugPrint('Erro ao buscar transações: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-
-    isLoading = false;
-    notifyListeners();
   }
 
+  
+
   void setAccount(String? account) {
-    selectedAccount = account;
+    selectedBankAccountId = account;
     fetchTransactions();
   }
 
-  void setYear(int? year) {
-    selectedYear = year;
+  // Aplicar filtros
+  void applyFilters() {
+    selectedBankAccountId = tempAccount;
+    selectedYear = tempYear ?? DateTime.now().year;
+    fetchTransactions();
+  }
+
+     // Set temporário
+  void setTempAccount(String? account) => tempAccount = account;
+  void setTempYear(int? year) => tempYear = year;
+
+
+  // Limpar filtros
+  void clearFilters() {
+    tempAccount = null;
+    tempYear = DateTime.now().year;
+
+    selectedBankAccountId = null;
+    selectedYear = DateTime.now().year;
+
     fetchTransactions();
   }
 
@@ -51,5 +76,11 @@ class TransactionsController extends ChangeNotifier {
     fetchTransactions();
     notifyListeners();
   }
+
+  void setTransactionType(TransactionType? type) {
+    selectedType = type;
+    fetchTransactions();
+  }
+
 }
 

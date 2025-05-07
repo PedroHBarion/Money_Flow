@@ -2,10 +2,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Simula delay de rede (somente para ambiente de desenvolvimento)
-Future<void> simulateNetworkDelay() async {
-  await Future.delayed(const Duration(milliseconds: 500));
-}
-
+// Future<void> simulateNetworkDelay() async {
+//   await Future.delayed(const Duration(milliseconds: 1500));
+// }
 
 class HttpClient {
   final String baseUrl;
@@ -22,10 +21,10 @@ class HttpClient {
   }
 
   Uri _buildUri(String path, [Map<String, dynamic>? queryParams]) {
-    final stringParams = queryParams?.map((key, value) => MapEntry(key, value.toString()));
+    final stringParams =
+        queryParams?.map((key, value) => MapEntry(key, value.toString()));
     return Uri.parse(baseUrl + path).replace(queryParameters: stringParams);
   }
-
 
   Future<dynamic> get(String path, {Map<String, dynamic>? queryParams}) async {
     return _makeRequest(path, 'GET', queryParams: queryParams);
@@ -44,12 +43,12 @@ class HttpClient {
   }
 
   Future<dynamic> _makeRequest(
-    String path, 
-    String method, 
-    {dynamic body,
-    Map<String, dynamic>? queryParams,}
-    ) async {
-    await simulateNetworkDelay();
+    String path,
+    String method, {
+    dynamic body,
+    Map<String, dynamic>? queryParams,
+  }) async {
+    // await simulateNetworkDelay();
     final uri = _buildUri(path, queryParams);
     final headers = await _getHeaders();
 
@@ -63,13 +62,11 @@ class HttpClient {
     return _handleResponse(responseData);
   }
 
- dynamic _handleResponse(http.Response response) {
-  if (response.statusCode >= 200 && response.statusCode < 300) {
-    return response.body; // Retorna o corpo da resposta como String
-  } else {
-    throw Exception('Erro na requisição: ${response.statusCode}');
+  dynamic _handleResponse(http.Response response) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return response.body; // Retorna o corpo da resposta como String
+    } else {
+      throw Exception('Erro na requisição: ${response.statusCode}');
+    }
   }
 }
-}
-
-

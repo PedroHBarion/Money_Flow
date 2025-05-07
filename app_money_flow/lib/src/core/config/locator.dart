@@ -16,7 +16,7 @@ import '../../widgets/modals/AccountModal/account_modal_controller.dart';
 final getIt = GetIt.instance;
 
 void setupLocator() {
-  getIt.registerLazySingleton(() => HttpClient('http://localhost:3001'));
+  getIt.registerLazySingleton(() => HttpClient('http://34.192.33.182:3001'));
   getIt.registerLazySingleton(() => AuthService(getIt<HttpClient>()));
   // Registrando os services de chamda da API
   getIt.registerLazySingleton(() => BankAccountsService(getIt<HttpClient>()));

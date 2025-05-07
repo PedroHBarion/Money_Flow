@@ -1,5 +1,8 @@
 // transactions.dart
+import 'package:app_money_flow/src/core/enums/transaction_type.dart';
+import 'package:app_money_flow/src/core/models/transactions/transaction_model.dart';
 import 'package:app_money_flow/src/core/utils/format_date.dart';
+import 'package:app_money_flow/src/widgets/modals/TransactionModal/transaction_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +13,35 @@ import '../../../../widgets/filter_modal.dart';
 import '../../../../widgets/custom_month_navigation.dart';
 import '../../../../widgets/transaction_card.dart';
 
-class Transactions extends StatelessWidget {
+class Transactions extends StatefulWidget {
   const Transactions({super.key});
+
+  @override
+  State<Transactions> createState() => _TransactionsState();
+}
+
+class _TransactionsState extends State<Transactions> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Aguarda o build inicial antes de fazer o fetch
+    Future.microtask(() {
+      final controller = context.read<TransactionsController>();
+      controller.fetchTransactions();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<TransactionsController>();
 
-    controller.transactions.map((tx) => print(tx.category?.icon));
+    void handleOpenTransactionModal({ required TransactionType typeModal, required TransactionModel transaction}){
+      showDialog(
+        context: context,
+        builder: (_) =>  TransactionModal(type: typeModal, transaction: transaction,),
+      );
+    }
 
     return Container(
       alignment: Alignment.center,
@@ -81,7 +105,9 @@ class Transactions extends StatelessWidget {
                       title: tx.name,
                       date: formatDate(tx.date),
                       amount: tx.value,
+                      onTap: () => handleOpenTransactionModal(typeModal: tx.type,transaction: tx ),
                     ),
+                    
                   )),
           ],
         ),
@@ -89,17 +115,18 @@ class Transactions extends StatelessWidget {
     );
   }
 
-  void _openFilterModal(
-      BuildContext context, TransactionsController controller) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return FilterModal(
-          onAccountSelected: (account) => controller.setAccount(account),
-          onYearSelected: (year) => controller.setYear(year),
-        );
-      },
-    );
-  }
+void _openFilterModal(BuildContext context, TransactionsController controller) {
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return FilterModal(
+        onTempAccountChanged: controller.setTempAccount,
+        onTempYearChanged: controller.setTempYear,
+        onApplyFilters: controller.applyFilters,
+        onClearFilters: controller.clearFilters,
+      );
+    },
+  );
+}
 }

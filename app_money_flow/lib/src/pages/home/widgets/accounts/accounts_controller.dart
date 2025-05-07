@@ -1,7 +1,7 @@
 // lib/ui/pages/home/controller/account_balance_controller.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/models/bank_accounts/bank_account_model.dart';
+import '../../../../core/models/bank_account_model.dart';
 import '../../../../core/services/bank_accounts_service.dart';
 
 
@@ -20,7 +20,7 @@ class AccountsController extends ChangeNotifier {
   List<BankAccountModel> get accounts => _accounts;
 
   double get totalBalance {
-    return _accounts.fold(0.0, (sum, acc) => sum + acc.currentBalance);
+    return _accounts.fold(0.0, (sum, acc) => sum + acc.currentBalance!);
   }
 
   Future<void> loadAccounts() async {
@@ -30,7 +30,7 @@ class AccountsController extends ChangeNotifier {
     try {
       _accounts = await service.getAll();
     } catch (e) {
-      print('Erro ao carregar contas: $e');
+      debugPrint('Erro ao carregar contas: $e');
       _accounts = [];
     } finally {
       _isLoading = false;
