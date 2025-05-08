@@ -1,5 +1,9 @@
+import 'package:app_money_flow/src/core/config/locator.dart';
+import 'package:app_money_flow/src/core/enums/transaction_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../pages/home/widgets/transactions/transactions_controller.dart';
 
 
 class DropdownTransaction extends StatefulWidget {
@@ -12,12 +16,42 @@ class DropdownTransaction extends StatefulWidget {
 class _DropdownTransactionState extends State<DropdownTransaction> {
   String selectedValue = 'Transações';
 
+  void handleTransactionTypeChange(String? newValue) {
+    if (newValue == null) return;
+
+    setState(() {
+      selectedValue = newValue;
+    });
+
+    final controller = getIt<TransactionsController>();
+
+    final selectedOption = options.firstWhere((opt) => opt['label'] == newValue);
+    final TransactionType? type = selectedOption['value'];
+
+    controller.setTransactionType(type);
+  }
 
   final List<Map<String, dynamic>> options = [
-    {'label': 'Receitas', 'color': Color(0xFFEBFBEE), 'icon': 'assets/icons/income_icon.svg'},
-    {'label': 'Despesas', 'color': Color(0xFFFFF5F5), 'icon': 'assets/icons/expense_icon.svg'},
-    {'label': 'Transações', 'color': Color(0xFFEDF2FF), 'icon': 'assets/icons/bank_icon.svg'},
-  ];
+  {
+    'label': 'Receitas',
+    'color': const Color(0xFFEBFBEE),
+    'icon': 'assets/icons/income_icon.svg',
+    'value': TransactionType.income,
+  },
+  {
+    'label': 'Despesas',
+    'color': const Color(0xFFFFF5F5),
+    'icon': 'assets/icons/expense_icon.svg',
+    'value': TransactionType.expense,
+  },
+  {
+    'label': 'Transações',
+    'color': const Color(0xFFEDF2FF),
+    'icon': 'assets/icons/bank_icon.svg',
+    'value': null,
+  },
+];
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +61,7 @@ class _DropdownTransactionState extends State<DropdownTransaction> {
         borderRadius: BorderRadius.circular(16),
         value: selectedValue,
         style: TextStyle(color: Colors.black, fontSize: 16),
-        onChanged: (String? newValue) {
-          if (newValue != null) {
-            setState(() {
-              selectedValue = newValue;
-            });
-          }
-        },
+        onChanged: handleTransactionTypeChange,
         items: options.map<DropdownMenuItem<String>>((option) {
           return DropdownMenuItem<String>(
             value: option['label'],
