@@ -31,20 +31,21 @@ class _MainNavigationState extends State<MainNavigation>
     super.dispose();
   }
 
-
-   void handleOpenTransactionModal({ required TransactionType typeModal}){
-     setState(() {
+  void handleOpenTransactionModal({required TransactionType typeModal}) {
+    setState(() {
       isExpanded = false;
     });
 
     showDialog(
       context: context,
-      builder: (_) =>  TransactionModal(type: typeModal,),
+      builder: (_) => TransactionModal(
+        type: typeModal,
+      ),
     );
   }
 
-  void handleOpenAccountModal(){
-     setState(() {
+  void handleOpenAccountModal() {
+    setState(() {
       isExpanded = false;
     });
 
@@ -68,8 +69,6 @@ class _MainNavigationState extends State<MainNavigation>
               children: const [Home(), ExpensesPage()],
             ),
           ),
-
-
           if (!showReceitaCard)
             Align(
               alignment: Alignment.bottomCenter,
@@ -79,7 +78,6 @@ class _MainNavigationState extends State<MainNavigation>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (isExpanded) _buildActionButtons(),
-
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Stack(
@@ -116,7 +114,6 @@ class _MainNavigationState extends State<MainNavigation>
                               ),
                             ),
                           ),
-
                           Positioned(
                             child: FloatingActionButton(
                               onPressed: () {
@@ -149,19 +146,21 @@ class _MainNavigationState extends State<MainNavigation>
   Widget _buildActionButtons() {
     final List<Map<String, dynamic>> options = [
       {
-        'label': 'Receitas',
+        'label': 'Nova Receita',
         'color': Color(0xFFEBFBEE),
         'icon': 'assets/icons/income_icon.svg',
-        'onTap':  () => handleOpenTransactionModal(typeModal: TransactionType.income),
+        'onTap': () =>
+            handleOpenTransactionModal(typeModal: TransactionType.income),
       },
       {
-        'label': 'Despesas',
+        'label': 'Nova Despesa',
         'color': Color(0xFFFFF5F5),
         'icon': 'assets/icons/expense_icon.svg',
-        'onTap': () => handleOpenTransactionModal(typeModal: TransactionType.expense),
+        'onTap': () =>
+            handleOpenTransactionModal(typeModal: TransactionType.expense),
       },
       {
-        'label': 'Transações',
+        'label': 'Nova Conta Bancária',
         'color': Color(0xFFEDF2FF),
         'icon': 'assets/icons/bank_icon.svg',
         'onTap': handleOpenAccountModal,
@@ -179,47 +178,46 @@ class _MainNavigationState extends State<MainNavigation>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:
-            options.map((option) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 15,
-                    ),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  onPressed: option['onTap'],
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: option['color'],
-                        radius: 16,
-                        child: SvgPicture.asset(
-                          option['icon'],
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        option['label'],
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xff343A40),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
+        children: options.map((option) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 15,
                 ),
-              );
-            }).toList(),
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: option['onTap'],
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: option['color'],
+                    radius: 16,
+                    child: SvgPicture.asset(
+                      option['icon'],
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    option['label'],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff343A40),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
