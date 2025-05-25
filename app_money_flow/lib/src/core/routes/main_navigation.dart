@@ -49,7 +49,6 @@ class _MainNavigationState extends State<MainNavigation>
     if (result == true) {
       await expensesController.loadTransactions();
       await expensesController.loadTransactionByCategory();
-      print("DEU BOM");
     }
   }
 
@@ -62,7 +61,6 @@ class _MainNavigationState extends State<MainNavigation>
       context: context,
       builder: (_) => const AccountModal(),
     );
-print(result);
     if (result == true) {
       await expensesController.loadTransactions();
       await expensesController.loadTransactionByCategory();

@@ -42,7 +42,6 @@ class AiService {
 
       return reply;
     } else {
-      print('Erro na IA: ${response.body}');
       throw Exception('Erro ao buscar resposta da IA');
     }
   }
