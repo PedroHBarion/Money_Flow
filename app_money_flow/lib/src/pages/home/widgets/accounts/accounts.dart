@@ -43,6 +43,10 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
   Widget build(BuildContext context) {
     final controller = context.watch<AccountsController>();
 
+    if (controller.isLoading == false && controller.errorMessage != null) {
+      return Text(controller.errorMessage!); // visível e testável!
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
       decoration: BoxDecoration(
@@ -66,6 +70,7 @@ class _AccountBalanceCardState extends State<AccountBalanceCard> {
                   ? const CircularProgressIndicator(color: Colors.white)
                   : Text(
                       'R\$ ${formatCurrency(controller.totalBalance)}',
+                      key: const Key('total-balance'),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,

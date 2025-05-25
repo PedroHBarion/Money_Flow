@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/models/transactions/transaction_model.dart';
 import '../../../../core/services/transactions_service.dart';
 
-
 class TransactionsController extends ChangeNotifier {
   final TransactionService service;
 
@@ -23,13 +22,16 @@ class TransactionsController extends ChangeNotifier {
 
   TransactionsController({required this.service});
 
-
- Future<void> fetchTransactions() async {
+  Future<void> fetchTransactions() async {
     isLoading = true;
     notifyListeners();
 
     try {
-      final filters = TransactionFiltersModel(month: currentMonthIndex, year: selectedYear!, type: selectedType?.value, bankAccountId: selectedBankAccountId);
+      final filters = TransactionFiltersModel(
+          month: currentMonthIndex,
+          year: selectedYear!,
+          type: selectedType?.value,
+          bankAccountId: selectedBankAccountId);
       transactions = await service.getAll(filters);
     } catch (e) {
       debugPrint('Erro ao buscar transações: $e');
@@ -39,48 +41,43 @@ class TransactionsController extends ChangeNotifier {
     }
   }
 
-  
-
   void setAccount(String? account) {
     selectedBankAccountId = account;
     fetchTransactions();
   }
 
   // Aplicar filtros
-  void applyFilters() {
+  Future<void> applyFilters() async {
     selectedBankAccountId = tempAccount;
     selectedYear = tempYear ?? DateTime.now().year;
-    fetchTransactions();
+    await fetchTransactions();
   }
 
-     // Set temporário
+  // Set temporário
   void setTempAccount(String? account) => tempAccount = account;
   void setTempYear(int? year) => tempYear = year;
 
-
   // Limpar filtros
-  void clearFilters() {
+  Future<void> clearFilters() async {
     tempAccount = null;
     tempYear = DateTime.now().year;
 
     selectedBankAccountId = null;
     selectedYear = DateTime.now().year;
 
-    fetchTransactions();
+    await fetchTransactions();
   }
 
-  void changeMonth(int newIndex) {
+  Future<void> changeMonth(int newIndex) async {
     currentMonthIndex = newIndex;
 
     if (currentMonthIndex < 0) currentMonthIndex += 12;
-    fetchTransactions();
+    await fetchTransactions();
     notifyListeners();
   }
 
-  void setTransactionType(TransactionType? type) {
+  Future<void> setTransactionType(TransactionType? type) async {
     selectedType = type;
-    fetchTransactions();
+    await fetchTransactions();
   }
-
 }
-

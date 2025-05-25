@@ -28,6 +28,7 @@ class _TransactionsState extends State<Transactions> {
     // Aguarda o build inicial antes de fazer o fetch
     Future.microtask(() {
       final controller = context.read<TransactionsController>();
+      controller.currentMonthIndex = DateTime.now().month - 1;
       controller.fetchTransactions();
     });
   }
@@ -36,10 +37,15 @@ class _TransactionsState extends State<Transactions> {
   Widget build(BuildContext context) {
     final controller = context.watch<TransactionsController>();
 
-    void handleOpenTransactionModal({ required TransactionType typeModal, required TransactionModel transaction}){
+    void handleOpenTransactionModal(
+        {required TransactionType typeModal,
+        required TransactionModel transaction}) {
       showDialog(
         context: context,
-        builder: (_) =>  TransactionModal(type: typeModal, transaction: transaction,),
+        builder: (_) => TransactionModal(
+          type: typeModal,
+          transaction: transaction,
+        ),
       );
     }
 
@@ -105,9 +111,9 @@ class _TransactionsState extends State<Transactions> {
                       title: tx.name,
                       date: formatDate(tx.date),
                       amount: tx.value,
-                      onTap: () => handleOpenTransactionModal(typeModal: tx.type,transaction: tx ),
+                      onTap: () => handleOpenTransactionModal(
+                          typeModal: tx.type, transaction: tx),
                     ),
-                    
                   )),
           ],
         ),
@@ -115,18 +121,19 @@ class _TransactionsState extends State<Transactions> {
     );
   }
 
-void _openFilterModal(BuildContext context, TransactionsController controller) {
-  showDialog(
-    context: context,
-    barrierDismissible: true,
-    builder: (context) {
-      return FilterModal(
-        onTempAccountChanged: controller.setTempAccount,
-        onTempYearChanged: controller.setTempYear,
-        onApplyFilters: controller.applyFilters,
-        onClearFilters: controller.clearFilters,
-      );
-    },
-  );
-}
+  void _openFilterModal(
+      BuildContext context, TransactionsController controller) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return FilterModal(
+          onTempAccountChanged: controller.setTempAccount,
+          onTempYearChanged: controller.setTempYear,
+          onApplyFilters: controller.applyFilters,
+          onClearFilters: controller.clearFilters,
+        );
+      },
+    );
+  }
 }
