@@ -3,6 +3,7 @@ import 'package:app_money_flow/src/core/services/categories_service.dart';
 import 'package:app_money_flow/src/core/services/message_service.dart';
 import 'package:app_money_flow/src/core/services/questions_service.dart';
 import 'package:app_money_flow/src/core/services/user_answers_service.dart';
+import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
 import 'package:app_money_flow/src/widgets/modals/TransactionModal/transaction_modal_controller.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -44,5 +45,10 @@ void setupLocator() {
         GetIt.I<TransactionService>(),
         GetIt.I<BankAccountsService>(),
         GetIt.I<CategoriesService>(),
+      ));
+  getIt.registerLazySingleton(() => ExpensesController(
+        getIt<TransactionService>(),
+        getIt<BankAccountsService>(),
+        getIt<MessageService>(),
       ));
 }
