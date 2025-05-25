@@ -1,7 +1,5 @@
-import 'package:app_money_flow/src/core/routes/main_navigation.dart';
+import 'package:app_money_flow/src/pages/chat/chat_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
 
 class SavingsSuggestionCard extends StatelessWidget {
   final String date;
@@ -9,8 +7,6 @@ class SavingsSuggestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expensesController = Provider.of<ExpensesController>(context);
-
     return Card(
       color: Color(0xFFFFFFFF),
       margin: EdgeInsets.all(16),
@@ -56,7 +52,7 @@ class SavingsSuggestionCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainNavigation(),
+                            builder: (context) => ChatPage(),
                           ),
                         );
                       },
