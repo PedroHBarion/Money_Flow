@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Input extends StatefulWidget {
   final String label;
@@ -6,6 +7,7 @@ class Input extends StatefulWidget {
   final String? errorText;
   final bool obscureText;
   final FormFieldValidator<String>? validator;
+  final List<TextInputFormatter>? inputFormatters; // ✅ novo
 
   const Input({
     super.key,
@@ -13,7 +15,8 @@ class Input extends StatefulWidget {
     required this.controller,
     this.errorText,
     this.obscureText = false,
-    this.validator, // <- Adicionado aqui
+    this.validator,
+    this.inputFormatters, // ✅ novo
   });
 
   @override
@@ -22,7 +25,6 @@ class Input extends StatefulWidget {
 
 class _InputState extends State<Input> {
   late bool _obscure;
-
 
   @override
   void initState() {
@@ -37,10 +39,11 @@ class _InputState extends State<Input> {
       controller: widget.controller,
       obscureText: _obscure,
       validator: widget.validator,
+      inputFormatters: widget.inputFormatters, // ✅ novo
       decoration: InputDecoration(
         labelText: widget.label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        errorText: widget.errorText, // Pode ser removido futuramente
+        errorText: widget.errorText,
         suffixIcon: widget.obscureText
             ? GestureDetector(
                 onTap: () {
