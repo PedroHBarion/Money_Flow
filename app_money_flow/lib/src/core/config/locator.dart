@@ -1,8 +1,10 @@
+import 'package:app_money_flow/src/core/services/ai_service.dart';
 import 'package:app_money_flow/src/core/services/categories_service.dart';
 import 'package:app_money_flow/src/core/services/message_service.dart';
 import 'package:app_money_flow/src/core/services/questions_service.dart';
 import 'package:app_money_flow/src/core/services/user_answers_service.dart';
 import 'package:app_money_flow/src/widgets/modals/TransactionModal/transaction_modal_controller.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import '../services/http/http_client.dart';
 import '../services/auth_service.dart';
@@ -14,10 +16,15 @@ import '../../pages/login/login_page_controller.dart';
 import '../../widgets/modals/AccountModal/account_modal_controller.dart';
 
 final getIt = GetIt.instance;
+final apiUrl = dotenv.env['API_URL'];
+final apiKeyIa = dotenv.env['IA_API_KEY'];
 
 void setupLocator() {
-  getIt.registerLazySingleton(() => HttpClient('http://34.192.33.182:3001'));
+  getIt.registerLazySingleton(() => HttpClient(apiUrl!));
   getIt.registerLazySingleton(() => AuthService(getIt<HttpClient>()));
+  getIt.registerLazySingleton<AiService>(
+    () => AiService(apiKey: apiKeyIa!),
+  );
   // Registrando os services de chamda da API
   getIt.registerLazySingleton(() => BankAccountsService(getIt<HttpClient>()));
   getIt.registerLazySingleton(() => TransactionService(getIt<HttpClient>()));
