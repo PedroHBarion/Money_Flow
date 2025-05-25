@@ -43,7 +43,7 @@ class TransactionModel {
       'name': name,
       'value': value,
       'date': date,
-      'type': type.value, // ← convertendo enum pra string
+      'type': type.value, 
       'categoryId': categoryId,
       'bankAccountId': bankAccountId,
     };

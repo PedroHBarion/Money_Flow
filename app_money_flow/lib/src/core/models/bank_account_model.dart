@@ -24,7 +24,7 @@ class BankAccountModel {
       initialBalance: json['initialBalance'].toDouble(),
       type: json['type'],
       color: json['color'],
-      currentBalance: json['currentBalance'].toDouble(),
+      currentBalance: json['currentBalance']?.toDouble(),
     );
   }
 
