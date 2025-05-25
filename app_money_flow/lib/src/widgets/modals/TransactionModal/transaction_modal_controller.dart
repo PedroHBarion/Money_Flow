@@ -12,6 +12,7 @@ import 'package:app_money_flow/src/core/utils/show_toast.dart';
 import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts_controller.dart';
 import 'package:app_money_flow/src/pages/home/widgets/transactions/transactions_controller.dart';
 import 'package:app_money_flow/src/app_money_flow.dart';
+import 'package:intl/intl.dart';
 
 class TransactionModalController extends ChangeNotifier {
   // Dependências
@@ -27,7 +28,7 @@ class TransactionModalController extends ChangeNotifier {
 
   // Controllers de formulário
   final nameController = TextEditingController();
-  final valueController = TextEditingController(text: '0,00');
+  final valueController = TextEditingController(text: '');
   final dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -79,7 +80,11 @@ class TransactionModalController extends ChangeNotifier {
   void loadTransactionToEdit(TransactionModel transaction) {
     editingTransaction = transaction;
     nameController.text = transaction.name;
-    valueController.text = transaction.value.toStringAsFixed(2).replaceAll('.', ',');
+    valueController.text = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: '',
+      decimalDigits: 2,
+    ).format(transaction.value).trim();
     selectedType = transaction.type;
     selectedCategory = transaction.categoryId;
     selectedAccount = transaction.bankAccountId;
@@ -92,7 +97,10 @@ class TransactionModalController extends ChangeNotifier {
   Future<bool> submit(VoidCallback onSuccess) async {
     final isValid = formKey.currentState?.validate() ?? false;
 
-    if (!isValid || selectedCategory == null || selectedAccount == null || selectedDate == null) {
+    if (!isValid ||
+        selectedCategory == null ||
+        selectedAccount == null ||
+        selectedDate == null) {
       if (selectedCategory == null) Toast.error('Selecione uma categoria');
       if (selectedAccount == null) Toast.error('Selecione uma conta bancária');
       if (selectedDate == null) Toast.error('Selecione uma data');
@@ -141,7 +149,8 @@ class TransactionModalController extends ChangeNotifier {
 
   // Métodos utilitários e setters
   double _currencyToDouble(String value) {
-    return double.tryParse(value.replaceAll('.', '').replaceAll(',', '.')) ?? 0.0;
+    return double.tryParse(value.replaceAll('.', '').replaceAll(',', '.')) ??
+        0.0;
   }
 
   void setCategory(String value) {
@@ -165,7 +174,7 @@ class TransactionModalController extends ChangeNotifier {
   void reset({bool clearEditing = true}) {
     if (clearEditing) editingTransaction = null;
     nameController.clear();
-    valueController.text = '0,00';
+    valueController.text = '';
     selectedCategory = null;
     selectedAccount = null;
     selectedDate = null;
@@ -174,7 +183,8 @@ class TransactionModalController extends ChangeNotifier {
   }
 
   // Exclusão da transação
-  Future<void> deleteTransaction(BuildContext context, String transactionId) async {
+  Future<void> deleteTransaction(
+      BuildContext context, String transactionId) async {
     isDeleting = true;
     notifyListeners();
 

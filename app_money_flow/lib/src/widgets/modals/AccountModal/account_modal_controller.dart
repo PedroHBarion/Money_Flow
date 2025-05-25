@@ -7,6 +7,7 @@ import 'package:app_money_flow/src/core/enums/bank_acount_type.dart';
 import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts_controller.dart';
 import 'package:app_money_flow/src/pages/home/widgets/transactions/transactions_controller.dart';
 import 'package:app_money_flow/src/app_money_flow.dart';
+import 'package:intl/intl.dart'; // Adicione no topo
 
 class AccountModalController extends ChangeNotifier {
   // Dependências
@@ -16,7 +17,7 @@ class AccountModalController extends ChangeNotifier {
 
   // Controllers e Chaves de Formulário
   final nameController = TextEditingController();
-  final initialBalanceController = TextEditingController(text: '0,00');
+  final initialBalanceController = TextEditingController(text: '');
   final formKey = GlobalKey<FormState>();
 
   // Estados do formulário
@@ -33,8 +34,12 @@ class AccountModalController extends ChangeNotifier {
   void loadAccountToEdit(BankAccountModel account) {
     editingAccount = account;
     nameController.text = account.name;
-    initialBalanceController.text =
-        account.initialBalance.toStringAsFixed(2).replaceAll('.', ',');
+    initialBalanceController.text = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: '',
+      decimalDigits: 2,
+    ).format(account.initialBalance).trim();
+
     selectedType = BankAccountType.fromString(account.type);
     selectedColor = account.color;
     notifyListeners();
@@ -60,7 +65,7 @@ class AccountModalController extends ChangeNotifier {
   void reset() {
     editingAccount = null;
     nameController.clear();
-    initialBalanceController.text = '0,00';
+    initialBalanceController.text = '';
     selectedType = BankAccountType.checking;
     selectedColor = null;
     notifyListeners();
