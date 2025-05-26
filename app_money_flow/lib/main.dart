@@ -9,7 +9,6 @@ import 'package:app_money_flow/src/core/provider/auth_provider.dart';
 import 'package:app_money_flow/src/core/services/toast_service.dart';
 import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts_controller.dart';
 import 'package:app_money_flow/src/pages/home/widgets/transactions/transactions_controller.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
   await dotenv.load(fileName: ".env");
