@@ -11,8 +11,8 @@ import 'package:app_money_flow/src/pages/home/widgets/accounts/accounts_controll
 import 'package:app_money_flow/src/pages/home/widgets/transactions/transactions_controller.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
 
   // Ativa o modo imersivo no início
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
