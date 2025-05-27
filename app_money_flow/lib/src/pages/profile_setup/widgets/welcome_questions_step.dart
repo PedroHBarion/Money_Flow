@@ -1,5 +1,5 @@
 import 'package:app_money_flow/src/widgets/button.dart';
-import 'package:flutter/gestures.dart'; 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,7 +11,8 @@ class WelcomeQuestionsStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,6 +83,7 @@ class WelcomeQuestionsStep extends StatelessWidget {
             ),
           ],
         ),
-      );
+      ),
+    );
   }
 }

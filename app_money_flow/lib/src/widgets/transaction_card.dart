@@ -24,6 +24,8 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var typeTeste = 'INCOME';
+    print((typeTeste == 'INCOME' ? '+R\$ ' : '-R\$ ') + formatCurrency(amount));
     return GestureDetector(
       onTap: onTap,
       child: Card(

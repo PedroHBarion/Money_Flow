@@ -65,7 +65,10 @@ class QuestionStep extends StatelessWidget {
           Button(
             text: 'Continuar',
             onPressed: selectedOption != null ? onContinue : null,
-            variant: ButtonVariant.normal,
+            variant: selectedOption == null
+                ? ButtonVariant.ghost
+                : ButtonVariant.normal,
+            disabled: selectedOption == null ? true : false,
           ),
         ],
       ),

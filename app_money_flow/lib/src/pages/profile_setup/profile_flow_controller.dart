@@ -4,10 +4,12 @@ import 'package:app_money_flow/src/core/services/questions_service.dart';
 import 'package:app_money_flow/src/core/services/user_answers_service.dart';
 import 'package:app_money_flow/src/core/utils/show_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 class ProfileFlowController extends ChangeNotifier {
-  final QuestionsService _questionsService = GetIt.I<QuestionsService>();
+  final QuestionsService _questionsService;
+  final UserAnswersService _userAnswersService;
+
+  ProfileFlowController(this._questionsService, this._userAnswersService);
 
   final PageController pageController = PageController();
 
@@ -108,8 +110,6 @@ class ProfileFlowController extends ChangeNotifier {
 
   // Envia os dados para a API
   Future<void> submitAnswers(BuildContext context) async {
-    final service = GetIt.I<UserAnswersService>();
-
     isLoading = true;
     notifyListeners();
 
@@ -121,7 +121,7 @@ class ProfileFlowController extends ChangeNotifier {
         );
       }).toList();
 
-      await service.submitAnswers(answers);
+      await _userAnswersService.submitAnswers(answers);
 
       // Avança para AcceptTermsStep (última página)
       currentPageIndex++;
