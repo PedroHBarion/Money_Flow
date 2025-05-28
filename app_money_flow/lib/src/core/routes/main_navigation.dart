@@ -28,15 +28,17 @@ class _MainNavigationState extends State<MainNavigation>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {
+          isExpanded = false;
+        });
+      }
+    });
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  Future<void> handleOpenTransactionModal({required TransactionType typeModal}) async {
+  Future<void> handleOpenTransactionModal(
+      {required TransactionType typeModal}) async {
     setState(() {
       isExpanded = false;
     });
