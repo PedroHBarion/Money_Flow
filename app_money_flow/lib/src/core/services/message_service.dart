@@ -17,7 +17,8 @@ class MessageService {
   Future<void> _loadMessages() async {
     try {
       // Lê o conteúdo do arquivo JSON
-      final String response = await rootBundle.loadString('data/messages.json');
+      final String response =
+          await rootBundle.loadString('assets/data/messages.json');
 
       // Decodifica o JSON para um mapa dinâmico
       Map<String, dynamic> data = json.decode(response);
