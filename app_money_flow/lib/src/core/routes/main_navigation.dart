@@ -36,7 +36,8 @@ class _MainNavigationState extends State<MainNavigation>
     super.dispose();
   }
 
-  Future<void> handleOpenTransactionModal({required TransactionType typeModal}) async {
+  Future<void> handleOpenTransactionModal(
+      {required TransactionType typeModal}) async {
     setState(() {
       isExpanded = false;
     });
@@ -46,7 +47,8 @@ class _MainNavigationState extends State<MainNavigation>
       builder: (_) => TransactionModal(type: typeModal),
     );
 
-    if (result == true) {
+    if (result != false) {
+      // aceita true ou null
       await expensesController.loadTransactions();
       await expensesController.loadTransactionByCategory();
     }
@@ -61,7 +63,8 @@ class _MainNavigationState extends State<MainNavigation>
       context: context,
       builder: (_) => const AccountModal(),
     );
-    if (result == true) {
+    if (result != false) {
+      // aceita true ou null
       await expensesController.loadTransactions();
       await expensesController.loadTransactionByCategory();
     }
