@@ -28,13 +28,12 @@ class _MainNavigationState extends State<MainNavigation>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
-        setState(() {
-          isExpanded = false;
-        });
-      }
-    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> handleOpenTransactionModal(
@@ -48,7 +47,8 @@ class _MainNavigationState extends State<MainNavigation>
       builder: (_) => TransactionModal(type: typeModal),
     );
 
-    if (result == true) {
+    if (result != false) {
+      // aceita true ou null
       await expensesController.loadTransactions();
       await expensesController.loadTransactionByCategory();
     }
@@ -63,7 +63,8 @@ class _MainNavigationState extends State<MainNavigation>
       context: context,
       builder: (_) => const AccountModal(),
     );
-    if (result == true) {
+    if (result != false) {
+      // aceita true ou null
       await expensesController.loadTransactions();
       await expensesController.loadTransactionByCategory();
     }
