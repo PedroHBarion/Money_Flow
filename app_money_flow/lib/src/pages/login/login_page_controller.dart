@@ -4,14 +4,15 @@ import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:app_money_flow/src/core/services/auth_service.dart';
 import 'package:app_money_flow/src/core/utils/show_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class LoginController extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final AuthService authService = GetIt.I<AuthService>();
+  final AuthService authService;
+
+  LoginController(this.authService);
 
   bool obscurePassword = true;
   bool isLoading = false;
@@ -25,7 +26,6 @@ class LoginController extends ChangeNotifier {
     final isValid = formKey.currentState?.validate() ?? false;
 
     if (!isValid) return;
-
     final loginData = LoginModel(
       email: emailController.text,
       password: passwordController.text,

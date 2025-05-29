@@ -1,8 +1,10 @@
 import 'package:app_money_flow/src/core/routes/app_routes.dart';
+import 'package:app_money_flow/src/core/services/auth_service.dart';
 import 'package:app_money_flow/src/widgets/button.dart';
 import 'package:app_money_flow/src/widgets/icons/logo.dart';
 import 'package:app_money_flow/src/widgets/inputs/input.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
@@ -13,8 +15,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = GetIt.I<AuthService>();
+
     return ChangeNotifierProvider<LoginController>(
-      create: (_) => LoginController(),
+      create: (_) => LoginController(authService),
       child: const _LoginForm(),
     );
   }
