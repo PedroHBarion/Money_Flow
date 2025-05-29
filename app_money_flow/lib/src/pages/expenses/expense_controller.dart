@@ -1,3 +1,4 @@
+import 'package:app_money_flow/src/core/utils/format_currency.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -34,7 +35,6 @@ class ExpensesController extends ChangeNotifier {
   bool isLoading = false;
   bool isLoadingAccounts = false;
 
-  /// Carrega transações para o mês/ano selecionado
   Future<void> loadTransactions() async {
     isLoading = true;
     notifyListeners();
@@ -47,7 +47,8 @@ class ExpensesController extends ChangeNotifier {
 
       await loadBankAccounts();
       transactions = await transactionService.getAll(filters);
-      await loadCategoryMessage(); // <-- Carregar a mensagem da categoria mais gasta
+      await loadTransactionByCategory(); // ← Carrega antes da mensagem
+      await loadCategoryMessage(); // ← Depende do resultado acima
     } catch (_) {
       // Erros podem ser tratados de forma mais robusta futuramente
     } finally {
@@ -56,16 +57,18 @@ class ExpensesController extends ChangeNotifier {
     }
   }
 
-  /// Carrega a mensagem da categoria mais gasta
   Future<void> loadCategoryMessage() async {
-    final highestTransaction = getHighestTransactionForMonth();
-    if (highestTransaction != null) {
-      final category = highestTransaction.category?.name ?? '';
-      categoryMessage = await messageService.getMessageForCategory(category);
-    } else {
+    if (transactionByCategory.isEmpty) {
       categoryMessage =
           "Nenhuma despesa registrada neste mês. Que tal começar a planejar seus gastos? 💡📉";
+    } else {
+      final highestCategory = transactionByCategory.reduce(
+        (a, b) => a.total > b.total ? a : b,
+      );
+      categoryMessage =
+          await messageService.getMessageForCategory(highestCategory.name);
     }
+
     notifyListeners();
   }
 
@@ -139,7 +142,7 @@ class ExpensesController extends ChangeNotifier {
         radius: 30,
         showTitle: true,
         title:
-            '${categoryData.name}\nR\$ ${categoryData.total.toStringAsFixed(2)}',
+            '${categoryData.name}\nR\$ ${formatCurrency(categoryData.total)}',
         titlePositionPercentageOffset: 2.2,
         titleStyle: TextStyle(
           fontSize: 14,
@@ -150,19 +153,10 @@ class ExpensesController extends ChangeNotifier {
     }).toList();
   }
 
-  /// Retorna a maior transação de despesa do mês atual
-  TransactionModel? getHighestTransactionForMonth() {
-    final selectedMonth = currentMonthIndex;
-
-    final expenseTransactions = transactions.where((transaction) {
-      final date = DateTime.tryParse(transaction.date);
-      return date != null &&
-          date.month == selectedMonth + 1 &&
-          transaction.type == TransactionType.expense;
-    });
-
-    return expenseTransactions.isEmpty
-        ? null
-        : expenseTransactions.reduce((a, b) => a.value > b.value ? a : b);
+  TransactionByCategoryModel? getHighestCategoryExpense() {
+    if (transactionByCategory.isEmpty) return null;
+    return transactionByCategory.reduce(
+      (a, b) => a.total > b.total ? a : b,
+    );
   }
 }
