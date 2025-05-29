@@ -110,17 +110,19 @@ class _ExpensesPageState extends State<ExpensesPage> {
                   const SizedBox(height: 20),
 
                   // Maior gasto do mês ou estado vazio
-                  if (controller.transactions.isNotEmpty) ...[
+                  if (controller.transactionByCategory.isNotEmpty) ...[
                     (() {
-                      final highestTransaction =
-                          controller.getHighestTransactionForMonth();
-
+                      final highestCategory =
+                          controller.getHighestCategoryExpense();
                       return TransactionCard(
-                        icon: 'home',
+                        icon: highestCategory
+                            ?.icon, // Ícone da categoria mais gasta
                         type: TransactionType.expense,
                         title: "Principal Gasto",
-                        date: highestTransaction?.category?.name ?? "N/A",
-                        amount: highestTransaction?.value ?? 0.0,
+                        date:
+                            highestCategory?.name ?? "N/A", // Nome da categoria
+                        amount: highestCategory?.total ??
+                            0.0, // Total gasto nessa categoria
                       );
                     })(),
                   ] else ...[
