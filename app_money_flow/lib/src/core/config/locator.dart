@@ -42,7 +42,8 @@ void setupLocator() {
   // Controllers
   getIt.registerLazySingleton(
       () => AccountsController(service: getIt<BankAccountsService>()));
-  getIt.registerFactory<LoginController>(() => LoginController());
+  getIt.registerFactory<LoginController>(
+      () => LoginController(getIt<AuthService>()));
   getIt.registerLazySingleton(
       () => TransactionsController(service: getIt<TransactionService>()));
   getIt.registerFactory(

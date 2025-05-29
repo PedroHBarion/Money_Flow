@@ -7,7 +7,7 @@ import 'package:app_money_flow/src/core/models/bank_account_model.dart';
 import 'package:app_money_flow/src/core/enums/transaction_type.dart';
 import 'package:app_money_flow/src/core/models/category_model.dart';
 
-import '../mocks/mocks.mocks.dart';
+import '../mocks/expenses.mocks.dart';
 
 void main() {
   late ExpensesController controller;
