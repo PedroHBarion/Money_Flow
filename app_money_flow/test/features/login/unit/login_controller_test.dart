@@ -1,8 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:app_money_flow/src/core/services/auth_service.dart';
 
-@GenerateMocks([AuthService])
 void main() {
   // ----------------------------
   // Funções auxiliares de validação

@@ -4,7 +4,6 @@ import 'package:app_money_flow/src/core/routes/app_routes.dart';
 import 'package:app_money_flow/src/core/services/auth_service.dart';
 import 'package:app_money_flow/src/core/utils/show_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class RegisterController extends ChangeNotifier {
@@ -14,7 +13,9 @@ class RegisterController extends ChangeNotifier {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final AuthService authService = GetIt.I<AuthService>();
+  final AuthService authService;
+
+  RegisterController(this.authService);
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;

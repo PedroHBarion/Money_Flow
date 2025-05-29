@@ -4,6 +4,7 @@ import 'package:app_money_flow/src/core/services/message_service.dart';
 import 'package:app_money_flow/src/core/services/questions_service.dart';
 import 'package:app_money_flow/src/core/services/user_answers_service.dart';
 import 'package:app_money_flow/src/pages/expenses/expense_controller.dart';
+import 'package:app_money_flow/src/pages/register/register_page_controller.dart';
 import 'package:app_money_flow/src/widgets/modals/TransactionModal/transaction_modal_controller.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,6 +45,8 @@ void setupLocator() {
       () => AccountsController(service: getIt<BankAccountsService>()));
   getIt.registerFactory<LoginController>(
       () => LoginController(getIt<AuthService>()));
+  getIt.registerFactory(() => RegisterController(getIt<AuthService>()));
+
   getIt.registerLazySingleton(
       () => TransactionsController(service: getIt<TransactionService>()));
   getIt.registerFactory(
