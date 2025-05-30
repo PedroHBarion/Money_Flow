@@ -1,125 +1,58 @@
 import 'package:app_money_flow/src/core/routes/app_routes.dart';
-import 'package:app_money_flow/src/pages/register/create_account_page.dart';
+import 'package:app_money_flow/src/core/services/auth_service.dart';
+import 'package:app_money_flow/src/widgets/button.dart';
+import 'package:app_money_flow/src/widgets/icons/logo.dart';
+import 'package:app_money_flow/src/widgets/inputs/input.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+import 'package:provider/provider.dart';
+import 'package:validatorless/validatorless.dart';
+import 'login_page_controller.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
-  }
-}
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    final authService = GetIt.I<AuthService>();
+
+    return ChangeNotifierProvider<LoginController>(
+      create: (_) => LoginController(authService),
+      child: const _LoginForm(),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  bool _obscurePassword = true;
-  String? _emailError;
-  String? _passwordError;
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  // Validação de e-mail
-  bool _isValidEmail(String email) {
-    final emailRegex = RegExp(
-      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-    );
-    return emailRegex.hasMatch(email);
-  }
-
-  // Validação de senha (8 números)
-  bool _isValidPassword(String password) {
-    final passwordRegex = RegExp(r"^\d{8}$");
-    return passwordRegex.hasMatch(password);
-  }
-
-  void _validateAndLogin() {
-    setState(() {
-      _emailError = null;
-      _passwordError = null;
-
-      if (emailController.text.isEmpty) {
-        _emailError = "O e-mail é obrigatório";
-      } else if (!_isValidEmail(emailController.text)) {
-        _emailError = "E-mail inválido";
-      }
-
-      if (passwordController.text.isEmpty) {
-        _passwordError = "A senha é obrigatória";
-      } else if (!_isValidPassword(passwordController.text)) {
-        _passwordError = "Senha inválida";
-      }
-    });
-
-    if (_emailError == null && _passwordError == null) {
-      // Autenticação bem-sucedida
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Login realizado com sucesso!"),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      Navigator.of(context, rootNavigator: true).pushNamed(AppRoutes.home);
-
-    }
-  }
+class _LoginForm extends StatelessWidget {
+  const _LoginForm();
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<LoginController>();
+
+    void handleSignin() {
+      if (controller.isLoading) return;
+
+      controller.validateAndLogin(context);
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        toolbarHeight: 80,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/logo_money_flow.svg',
-                height: 25,
-                colorFilter: const ColorFilter.mode(
-                  Colors.grey,
-                  BlendMode.srcIn,
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'MoneyFlow',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: Padding(
+            padding: EdgeInsets.only(top: 50),
+            child: Logo(
+              color: Colors.grey,
+              fontSize: 20,
+              iconSize: 25,
+            )),
       ),
       backgroundColor: const Color(0xFFFFFFFF),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
-          key: _formKey,
+          key: controller.formKey,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -133,89 +66,50 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Não possui uma conta? "),
-                    GestureDetector(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateAccountPage(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Crie uma aqui",
-                          style: TextStyle(
-                            color: Color(0xFF087F5B),
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        ).pushNamed(AppRoutes.register);
+                      },
+                      child: const Text(
+                        "Crie uma aqui",
+                        style: TextStyle(
+                          color: Color(0xFF087F5B),
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Campo de E-mail
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: "E-mail",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    errorText: _emailError,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
+                Input(
+                  label: 'E-mail',
+                  controller: controller.emailController,
+                  validator: Validatorless.multiple([
+                    Validatorless.required('O e-mail é obrigatório'),
+                    Validatorless.email('E-mail inválido'),
+                  ]),
                 ),
                 const SizedBox(height: 15),
-
-                // Campo de Senha
-                TextField(
-                  controller: passwordController,
-                  obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    labelText: "Senha",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    errorText: _passwordError,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
+                Input(
+                  label: 'Senha',
+                  controller: controller.passwordController,
+                  obscureText: true,
+                  validator: Validatorless.multiple([
+                    Validatorless.required('A senha é obrigatória'),
+                  ]),
                 ),
-
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF087F5B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: _validateAndLogin,
-                    child: const Text(
-                      "Entrar",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                ),
+                Button(
+                  text: 'Entrar',
+                  isLoading: controller.isLoading,
+                  onPressed: () => handleSignin(),
+                  disabled: controller.isLoading,
+                  variant: ButtonVariant.normal,
+                )
               ],
             ),
           ),
