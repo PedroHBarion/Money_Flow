@@ -64,21 +64,24 @@ void main() {
         ),
       ];
 
+      // Mocks
       when(mockTransactionService.getAll(any))
           .thenAnswer((_) async => fakeTransactions);
+
       when(mockBankAccountsService.getAll())
           .thenAnswer((_) async => fakeAccounts);
+
       when(mockTransactionService.getExpenseSummaryByCategory(
               month: anyNamed('month'), year: anyNamed('year')))
           .thenAnswer((_) async => fakeSummary);
-      when(mockMessageService.getMessageForCategory(any))
+
+      when(mockMessageService.getMessageForCategory('Alimentação'))
           .thenAnswer((_) async => 'Dica de economia mockada');
 
-      // Execução dos métodos
+      // Execução
       await controller.loadTransactions();
-      await controller.loadTransactionByCategory();
 
-      // Validação dos estados
+      // Validações
       expect(controller.isLoading, isFalse);
       expect(controller.transactions, isNotEmpty);
       expect(controller.accounts, isNotEmpty);
@@ -87,33 +90,30 @@ void main() {
     });
 
     test('should return highest transaction from mocked data', () async {
-      final now = DateTime.now();
-
-      // Dados de transação mockados
-      final fakeTransactions = [
-        TransactionModel(
-          id: 't1',
-          name: 'Restaurante',
-          value: 60.0,
-          date: DateTime(now.year, now.month, 15).toIso8601String(),
-          type: TransactionType.expense,
-          category: CategoryModel(id: 'c2', name: 'Lazer', icon: 'game'),
+      final fakeSummary = [
+        TransactionByCategoryModel(
+          id: 'c2',
+          name: 'Lazer',
+          color: '#00FF00',
+          icon: 'game',
+          total: 200.0,
         ),
-        TransactionModel(
-          id: 't2',
-          name: 'Cinema',
-          value: 30.0,
-          date: DateTime(now.year, now.month, 10).toIso8601String(),
-          type: TransactionType.expense,
-          category: CategoryModel(id: 'c2', name: 'Lazer', icon: 'game'),
+        TransactionByCategoryModel(
+          id: 'c3',
+          name: 'Transporte',
+          color: '#0000FF',
+          icon: 'car',
+          total: 100.0,
         ),
       ];
 
-      controller.transactions = fakeTransactions;
+      controller.transactionByCategory = fakeSummary;
 
-      final highest = controller.getHighestTransactionForMonth();
+      final highest = controller.getHighestCategoryExpense();
+
       expect(highest, isNotNull);
-      expect(highest!.name, 'Restaurante');
+      expect(highest!.name, 'Lazer');
+      expect(highest.total, 200.0);
     });
   });
 }

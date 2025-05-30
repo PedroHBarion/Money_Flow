@@ -100,8 +100,6 @@ class _LoginForm extends StatelessWidget {
                   obscureText: true,
                   validator: Validatorless.multiple([
                     Validatorless.required('A senha é obrigatória'),
-                    Validatorless.regex(RegExp(r'^\d{8}$'),
-                        'A senha deve conter exatamente 8 números'),
                   ]),
                 ),
                 const SizedBox(height: 20),

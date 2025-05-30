@@ -103,8 +103,14 @@ class _RegisterForm extends StatelessWidget {
                     obscureText: true,
                     validator: Validatorless.multiple([
                       Validatorless.required('A senha é obrigatória'),
-                      Validatorless.regex(RegExp(r'^\d{8}$'),
-                          'A senha deve conter 8 dígitos numéricos'),
+                      Validatorless.min(8, 'Mínimo 8 caracteres'),
+                      Validatorless.regex(
+                          RegExp(r'[A-Z]'), 'Use uma letra maiúscula'),
+                      Validatorless.regex(
+                          RegExp(r'[a-z]'), 'Use uma letra minúscula'),
+                      Validatorless.regex(RegExp(r'[0-9]'), 'Use um número'),
+                      Validatorless.regex(
+                          RegExp(r'[^A-Za-z0-9]'), 'Use um caractere especial'),
                     ]),
                   ),
                   const SizedBox(height: 15),
