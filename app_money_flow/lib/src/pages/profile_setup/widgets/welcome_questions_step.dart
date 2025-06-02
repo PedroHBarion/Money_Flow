@@ -38,7 +38,7 @@ class WelcomeQuestionsStep extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            SvgPicture.asset('assets/images/questions.svg', height: 150),
+            SvgPicture.asset('assets/images/questions_image.svg', height: 150),
             const SizedBox(height: 20),
             RichText(
               textAlign: TextAlign.center,
