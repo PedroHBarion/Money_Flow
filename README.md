@@ -136,7 +136,7 @@ flutter run
 
 - Ana Tereza Rodrigues Magalhães — @anamagalhaesss(https://github.com/anamagalhaesss)
 - Bruno Aparecido Pinheiro — @DevBrunoPi(https://github.com/DevBrunoPi)
-- Luiz André Oliveira Almeida — @Luiz-1213(https://github.com/Luiz-1213)
+- Luiz André Oliveira Almeida — @Luiz-1213(https://github.com/luiz-almeida-dev)
 - Pedro Henrique Barion — @PedroHBarion(https://github.com/PedroHBarion)
 
 ---
